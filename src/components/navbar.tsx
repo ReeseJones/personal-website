@@ -6,7 +6,7 @@ export const Navbar: React.FC<React.ReactNode> = () => {
 
     return <nav>
         {navbarPages.map((page) => {
-            return <Link to={page.path}>{page.name}</Link>
+            return <Link key={page.path} to={page.path}>{page.name}</Link>
         })}
     </nav>;
 }

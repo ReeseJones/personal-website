@@ -6,13 +6,13 @@ export const Footer: React.FC<React.ReactNode> = () => {
         <section>
             <h2>Contact</h2>
             <ul>
-                <li>
+                <li key={"email"}>
                     <span>Email:</span> reesedrjones@gmail.com
                 </li>
-                <li>
+                <li key={"phone number"}>
                     <span>Phone: </span> 425-591-2419
                 </li>
-                <li>
+                <li key={"Linkedin"}>
                     <span>LinkedIn: </span> <a href="www.linkedin.com/in/reesedrjones">www.linkedin.com/in/reesedrjones</a>
                 </li>
             </ul>
