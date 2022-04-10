@@ -1,6 +1,9 @@
 import * as PIXI from "pixi.js";
 
+import starCloud from "../images/starcloud.png";
+
 const starCount = 1000;
+const parallaxSpeedMultiplier = 2;
 
 export function clamp(val: number, min: number, max: number) {
     return Math.min(Math.max(val, min), max);
@@ -29,10 +32,12 @@ export function randomColor() {
     finalColor = finalColor | 0xFF << (fullSaturationIndex * 8);
     finalColor = finalColor | randomInt(0x40, 0xFF) << (midSaturationIndex * 8);
 
-    //finalColor = randomInt(0x40, 0xFF) | (randomInt(0x40, 0xFF) << 8) | (randomInt(0x40, 0xFF) << 16);
-
     return finalColor;
 
+}
+
+function makeColor(r: number, g: number, b: number) {
+    return (r * 0xFF << 16) | (g * 0xFF << 8) | (b * 0xFF);
 }
 
 
@@ -57,22 +62,13 @@ export class StarField {
 
     private stars: IParticle[] = [];
 
-    private baseStarGeometry: PIXI.Graphics = new PIXI.Graphics();
-
     private lastPosition = new PIXI.Point(0, 0);
 
     constructor(app: PIXI.Application) {
+        this.particleContainer.blendMode = PIXI.BLEND_MODES.ADD;
         app.stage.addChild(this.particleContainer);
 
-        this.baseStarGeometry.lineStyle(0);
-        this.baseStarGeometry.beginFill(0xAAAAAA, 1);
-        this.baseStarGeometry.drawCircle(0, 0, 12);
-        this.baseStarGeometry.endFill();
-        this.baseStarGeometry.beginFill(0xFFFFFF, 1);
-        this.baseStarGeometry.drawRect(0, -1, 12, 1);
-        this.baseStarGeometry.endFill();
-
-        const starTexture = app.renderer.generateTexture(this.baseStarGeometry);
+        const starTexture = PIXI.Texture.from(starCloud);
 
         for (let i = 0; i < starCount; ++i) {
             const star: IParticle = {
@@ -80,14 +76,14 @@ export class StarField {
                 direction: randomNumber(0, 2 * Math.PI),
                 directionSpeed:  randomNumber(-Math.PI, Math.PI),
                 speed: 100 + 100 * Math.random(),
-                depthFactor: randomNumber(0.1, 2) * (Math.pow(Math.random(), 5))
+                depthFactor: randomNumber(0.1, 1.5) * (Math.pow(Math.random(), 10))
             }
             star.sprite.zIndex = star.depthFactor;
             star.sprite.anchor.set(0.5);
             star.sprite.x = Math.random() * app.screen.width;
             star.sprite.y = Math.random() * app.screen.height;
-            star.sprite.tint = randomColor();
-            star.sprite.scale.x = clamp(star.depthFactor * 2, 0.1, 4);
+            star.sprite.tint = makeColor(randomNumber(0.9, 1), randomNumber(0.7, 0.9), randomNumber(0.4, 0.7));
+            star.sprite.scale.x = clamp(star.depthFactor, 0.01, 1);
             star.sprite.scale.y = star.sprite.scale.x;
 
             this.stars.push(star);
@@ -126,8 +122,8 @@ export class StarField {
             for (let i = 0; i < starCount; i++) {
                 const star = this.stars[i];
 
-                star.sprite.x -= xDiff * star.depthFactor;
-                star.sprite.y -= yDiff * star.depthFactor;
+                star.sprite.x -= xDiff * star.depthFactor * parallaxSpeedMultiplier;
+                star.sprite.y -= yDiff * star.depthFactor * parallaxSpeedMultiplier;
         
                 if (star.sprite.x < starBounds.x) {
                     star.sprite.x += starBounds.width;
