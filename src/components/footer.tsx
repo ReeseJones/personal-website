@@ -15,7 +15,9 @@ export const Footer: React.FC<React.ReactNode> = () => {
                     </li>
                     <li key={"Linkedin"}>
                         <span>LinkedIn: </span>{" "}
-                        <a href="www.linkedin.com/in/reesedrjones">www.linkedin.com/in/reesedrjones</a>
+                        <a href="www.linkedin.com/in/reesedrjones">
+                            www.linkedin.com/in/reesedrjones
+                        </a>
                     </li>
                 </ul>
             </section>

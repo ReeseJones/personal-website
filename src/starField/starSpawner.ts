@@ -1,5 +1,11 @@
 import { IParticle } from "./IParticle";
-import { clamp, lerp, makeColor, randomInt, randomNumber } from "../lib/helpers";
+import {
+    clamp,
+    lerp,
+    makeColor,
+    randomInt,
+    randomNumber
+} from "../lib/helpers";
 
 export interface IPoint {
     x: number;
@@ -13,7 +19,13 @@ export interface IBounds {
     height: number;
 }
 
-export function createStarHelper(depth: number, maxDepth: number, bounds: IBounds, minScale: number, maxScale: number) {
+export function createStarHelper(
+    depth: number,
+    maxDepth: number,
+    bounds: IBounds,
+    minScale: number,
+    maxScale: number
+) {
     const depthProgress = depth / maxDepth;
     const newPos = {
         x: randomNumber(bounds.x, bounds.width),
@@ -24,7 +36,12 @@ export function createStarHelper(depth: number, maxDepth: number, bounds: IBound
     return createStar(newPos, depth, starMinScale, starMaxScale);
 }
 
-export function createStar(position: IPoint, depth: number, minScale: number, maxScale: number): IParticle {
+export function createStar(
+    position: IPoint,
+    depth: number,
+    minScale: number,
+    maxScale: number
+): IParticle {
     return {
         sprite: null,
         position,
@@ -53,7 +70,13 @@ export function spawnStars(
 
     //spawn root stars
     for (let i = 0; i < rootStarCount; i += 1) {
-        const newStar = createStarHelper(currentDepth, maxDepth, bounds, minScale, maxScale);
+        const newStar = createStarHelper(
+            currentDepth,
+            maxDepth,
+            bounds,
+            minScale,
+            maxScale
+        );
         rootStars.push(newStar);
         starQueue.push(newStar);
         currentStarCount += 1;
@@ -66,7 +89,15 @@ export function spawnStars(
         const childrenCount = randomInt(minEdges, maxEdges);
 
         for (let i = 0; i < childrenCount; i += 1) {
-            currentStar.neighbors.push(createStarHelper(currentStar.depth + 1, maxDepth, bounds, minScale, maxScale));
+            currentStar.neighbors.push(
+                createStarHelper(
+                    currentStar.depth + 1,
+                    maxDepth,
+                    bounds,
+                    minScale,
+                    maxScale
+                )
+            );
         }
     }
 

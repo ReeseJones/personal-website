@@ -38,9 +38,15 @@ export class StarField {
             };
             star.sprite.zIndex = star.depthFactor;
             star.sprite.anchor.set(0.5);
-            star.sprite.x = -app.screen.width * 2 + Math.random() * app.screen.width * 4;
-            star.sprite.y = -app.screen.height * 2 + Math.random() * app.screen.height * 4;
-            star.sprite.tint = makeColor(randomNumber(0.9, 1), randomNumber(0.7, 0.9), randomNumber(0.4, 0.7));
+            star.sprite.x =
+                -app.screen.width * 2 + Math.random() * app.screen.width * 4;
+            star.sprite.y =
+                -app.screen.height * 2 + Math.random() * app.screen.height * 4;
+            star.sprite.tint = makeColor(
+                randomNumber(0.9, 1),
+                randomNumber(0.7, 0.9),
+                randomNumber(0.4, 0.7)
+            );
             star.sprite.scale.x = star.depthFactor * 1.3;
             star.sprite.scale.y = star.sprite.scale.x;
 
@@ -71,35 +77,46 @@ export class StarField {
             }
         });
 
-        app.renderer.plugins.interaction.on("pointermove", (event: PIXI.InteractionEvent) => {
-            const mousePos = event.data.global;
+        app.renderer.plugins.interaction.on(
+            "pointermove",
+            (event: PIXI.InteractionEvent) => {
+                const mousePos = event.data.global;
 
-            if (this.lastPosition.x === 0 && this.lastPosition.y === 0) {
+                if (this.lastPosition.x === 0 && this.lastPosition.y === 0) {
+                    this.lastPosition = new PIXI.Point(mousePos.x, mousePos.y);
+                }
+
+                const xDiff = mousePos.x - this.lastPosition.x;
+                const yDiff = mousePos.y - this.lastPosition.y;
                 this.lastPosition = new PIXI.Point(mousePos.x, mousePos.y);
-            }
 
-            const xDiff = mousePos.x - this.lastPosition.x;
-            const yDiff = mousePos.y - this.lastPosition.y;
-            this.lastPosition = new PIXI.Point(mousePos.x, mousePos.y);
+                for (let i = 0; i < starCount; i++) {
+                    const star = this.stars[i];
 
-            for (let i = 0; i < starCount; i++) {
-                const star = this.stars[i];
+                    star.sprite.x -=
+                        xDiff * star.depthFactor * parallaxSpeedMultiplier;
+                    star.sprite.y -=
+                        yDiff * star.depthFactor * parallaxSpeedMultiplier;
+                    if (star.sprite.x < starBounds.x) {
+                        star.sprite.x += starBounds.width;
+                    } else if (
+                        star.sprite.x >
+                        starBounds.x + starBounds.width
+                    ) {
+                        star.sprite.x -= starBounds.width;
+                    }
 
-                star.sprite.x -= xDiff * star.depthFactor * parallaxSpeedMultiplier;
-                star.sprite.y -= yDiff * star.depthFactor * parallaxSpeedMultiplier;
-                if (star.sprite.x < starBounds.x) {
-                    star.sprite.x += starBounds.width;
-                } else if (star.sprite.x > starBounds.x + starBounds.width) {
-                    star.sprite.x -= starBounds.width;
+                    if (star.sprite.y < starBounds.y) {
+                        star.sprite.y += starBounds.height;
+                    } else if (
+                        star.sprite.y >
+                        starBounds.y + starBounds.height
+                    ) {
+                        star.sprite.y -= starBounds.height;
+                    }
                 }
-
-                if (star.sprite.y < starBounds.y) {
-                    star.sprite.y += starBounds.height;
-                } else if (star.sprite.y > starBounds.y + starBounds.height) {
-                    star.sprite.y -= starBounds.height;
-                }
             }
-        });
+        );
 
         const lineRnderer = new LineRenderer(app, this.stars);
     }

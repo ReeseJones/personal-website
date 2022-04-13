@@ -23,11 +23,14 @@ export function randomColor() {
 
     const fullSaturationIndex = colorIndex[fullIndex];
     colorIndex.splice(fullIndex, 1);
-    const midSaturationIndex = (secondIndex ? colorIndex.pop() : colorIndex.shift()) as number;
+    const midSaturationIndex = (
+        secondIndex ? colorIndex.pop() : colorIndex.shift()
+    ) as number;
 
     let finalColor = 0;
     finalColor = finalColor | (0xff << (fullSaturationIndex * 8));
-    finalColor = finalColor | (randomInt(0x40, 0xff) << (midSaturationIndex * 8));
+    finalColor =
+        finalColor | (randomInt(0x40, 0xff) << (midSaturationIndex * 8));
 
     return finalColor;
 }

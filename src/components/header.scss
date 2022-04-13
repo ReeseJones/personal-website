@@ -30,13 +30,15 @@
         right: 100%;
         bottom: 0;
         left: 0;
-        transition: right 0.5s cubic-bezier(0, 0.5, 0, 1), border-color 0.4s ease-out;
+        transition: right 0.5s cubic-bezier(0, 0.5, 0, 1),
+            border-color 0.4s ease-out;
     }
 
     a:hover::after {
         right: 0;
         border-color: #6ac3ff;
-        transition: right 0.5s cubic-bezier(0, 0.5, 0, 1), border-color 0.4s ease-out;
+        transition: right 0.5s cubic-bezier(0, 0.5, 0, 1),
+            border-color 0.4s ease-out;
     }
 }
 

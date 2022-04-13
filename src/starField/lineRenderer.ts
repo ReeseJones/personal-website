@@ -1,5 +1,10 @@
 import * as PIXI from "pixi.js";
-import { clamp, getRandomIndices, randomInt, randomNumber } from "../lib/helpers";
+import {
+    clamp,
+    getRandomIndices,
+    randomInt,
+    randomNumber
+} from "../lib/helpers";
 import lineGradient from "../images/lineGradient.png";
 import { IParticle } from "./IParticle";
 import { average, direction, length, subtract } from "../lib/point-math";
@@ -20,8 +25,10 @@ export function pickStars(stars: IParticle[]) {
         first = stars[(firstIndex + i) % stars.length];
 
         if (first.depthFactor < 0.6) continue;
-        if (first.sprite.position.x < 200 || first.sprite.position.x > 1600) continue;
-        if (first.sprite.position.y < 200 || first.sprite.position.y > 700) continue;
+        if (first.sprite.position.x < 200 || first.sprite.position.x > 1600)
+            continue;
+        if (first.sprite.position.y < 200 || first.sprite.position.y > 700)
+            continue;
         break;
     }
 
@@ -29,21 +36,28 @@ export function pickStars(stars: IParticle[]) {
     let second = stars[secondIndex];
     for (let i = 0; i < stars.length; i += 1) {
         second = stars[(firstIndex + i) % stars.length];
-        const dist = length(subtract(first.sprite.position, second.sprite.position));
+        const dist = length(
+            subtract(first.sprite.position, second.sprite.position)
+        );
         const depthDiff = Math.abs(first.depthFactor - second.depthFactor);
 
         if (depthDiff < 0.3) continue;
         if (dist > 200) continue;
         if (first === second) continue;
-        if (second.sprite.position.x < 0 || second.sprite.position.x > 1800) continue;
-        if (second.sprite.position.y < 0 || second.sprite.position.y > 900) continue;
+        if (second.sprite.position.x < 0 || second.sprite.position.x > 1800)
+            continue;
+        if (second.sprite.position.y < 0 || second.sprite.position.y > 900)
+            continue;
         break;
     }
     return { first, second };
 }
 
 export function updateLineParticle(line: ILineParticle) {
-    const newPos = average(line.start.sprite.position, line.end.sprite.position);
+    const newPos = average(
+        line.start.sprite.position,
+        line.end.sprite.position
+    );
     const diff = subtract(line.start.sprite.position, line.end.sprite.position);
     line.sprite.position.set(newPos.x, newPos.y);
     line.sprite.rotation = Math.atan2(diff.y, diff.x) + Math.PI;

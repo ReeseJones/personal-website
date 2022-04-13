@@ -18,7 +18,9 @@ export const usePixiApp = () => {
 
         //creating starField ont pixi app
         setTimeout(() => {
-            const starField = new StarField(pixiApp.current as PIXI.Application);
+            const starField = new StarField(
+                pixiApp.current as PIXI.Application
+            );
         }, 1000);
 
         return () => {
