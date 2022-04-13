@@ -1,14 +1,14 @@
-exports.onCreateWebpackConfig = ( { stage, loaders, actions } ) => {
-    if ( stage === "build-html" || stage === "develop-html" ) {
-        actions.setWebpackConfig( {
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+    if (stage === "build-html" || stage === "develop-html") {
+        actions.setWebpackConfig({
             module: {
                 rules: [
                     {
                         test: /pixi.js/,
-                        use: loaders.null(),
-                    },
-                ],
-            },
-        } )
+                        use: loaders.null()
+                    }
+                ]
+            }
+        });
     }
-}
+};

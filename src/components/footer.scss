@@ -14,16 +14,15 @@
         justify-content: center;
         align-items: flex-start;
 
-            li {
-                white-space: pre;
-                display: flex;
-                flex-direction: row;
-                font-weight: normal;
-                font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                span {
-                    font-weight:900;
-                }
-                
+        li {
+            white-space: pre;
+            display: flex;
+            flex-direction: row;
+            font-weight: normal;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            span {
+                font-weight: 900;
             }
+        }
     }
 }

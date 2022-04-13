@@ -18,7 +18,7 @@ export function createStarHelper(depth: number, maxDepth: number, bounds: IBound
     const newPos = {
         x: randomNumber(bounds.x, bounds.width),
         y: randomNumber(bounds.y, bounds.height)
-    }
+    };
     const starMaxScale = lerp(maxScale, minScale, depthProgress);
     const starMinScale = clamp(starMaxScale - 0.2, minScale, maxScale);
     return createStar(newPos, depth, starMinScale, starMaxScale);
@@ -33,10 +33,18 @@ export function createStar(position: IPoint, depth: number, minScale: number, ma
         depth,
         scale: randomNumber(minScale, maxScale),
         neighbors: []
-    }
+    };
 }
 
-export function spawnStars(bounds: IBounds, count: number, minScale: number, maxScale: number, minEdges: number, maxEdges: number, maxDepth: number): IParticle[] {
+export function spawnStars(
+    bounds: IBounds,
+    count: number,
+    minScale: number,
+    maxScale: number,
+    minEdges: number,
+    maxEdges: number,
+    maxDepth: number
+): IParticle[] {
     const rootStars: IParticle[] = [];
     const starQueue: IParticle[] = [];
     let currentDepth = 0;
@@ -58,18 +66,9 @@ export function spawnStars(bounds: IBounds, count: number, minScale: number, max
         const childrenCount = randomInt(minEdges, maxEdges);
 
         for (let i = 0; i < childrenCount; i += 1) {
-            currentStar.neighbors.push(createStarHelper(
-                currentStar.depth + 1,
-                maxDepth,
-                bounds,
-                minScale,
-                maxScale
-            )
-            )
+            currentStar.neighbors.push(createStarHelper(currentStar.depth + 1, maxDepth, bounds, minScale, maxScale));
         }
-
     }
-
 
     return rootStars;
 }
