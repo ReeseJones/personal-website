@@ -19,6 +19,26 @@ export interface IBounds {
     height: number;
 }
 
+export function createStar(
+    position: IPoint,
+    depth: number,
+    minScale: number,
+    maxScale: number
+): IParticle {
+    return {
+        sprite: null,
+        position,
+        direction: randomNumber(0, 2 * Math.PI),
+        directionSpeed: randomNumber(-Math.PI, Math.PI),
+        depth,
+        scale: randomNumber(minScale, maxScale),
+        neighbors: [],
+        arcAngle: randomNumber(-Math.PI / 3, Math.PI / 3),
+        arcLength: randomNumber(10, 50),
+        parent: null
+    };
+}
+
 export function createStarHelper(
     depth: number,
     maxDepth: number,
@@ -36,23 +56,6 @@ export function createStarHelper(
     return createStar(newPos, depth, starMinScale, starMaxScale);
 }
 
-export function createStar(
-    position: IPoint,
-    depth: number,
-    minScale: number,
-    maxScale: number
-): IParticle {
-    return {
-        sprite: null,
-        position,
-        direction: randomNumber(0, 2 * Math.PI),
-        directionSpeed: randomNumber(-Math.PI, Math.PI),
-        depth,
-        scale: randomNumber(minScale, maxScale),
-        neighbors: []
-    };
-}
-
 export function spawnStars(
     bounds: IBounds,
     count: number,
@@ -61,23 +64,24 @@ export function spawnStars(
     minEdges: number,
     maxEdges: number,
     maxDepth: number
-): IParticle[] {
+) {
     const rootStars: IParticle[] = [];
     const starQueue: IParticle[] = [];
-    let currentDepth = 0;
+    const stars: IParticle[] = [];
     const rootStarCount = Math.pow(count, 1 / maxDepth);
     let currentStarCount = 0;
 
     //spawn root stars
     for (let i = 0; i < rootStarCount; i += 1) {
         const newStar = createStarHelper(
-            currentDepth,
+            0,
             maxDepth,
             bounds,
             minScale,
             maxScale
         );
         rootStars.push(newStar);
+        stars.push(newStar);
         starQueue.push(newStar);
         currentStarCount += 1;
     }
@@ -89,17 +93,32 @@ export function spawnStars(
         const childrenCount = randomInt(minEdges, maxEdges);
 
         for (let i = 0; i < childrenCount; i += 1) {
-            currentStar.neighbors.push(
-                createStarHelper(
-                    currentStar.depth + 1,
-                    maxDepth,
-                    bounds,
-                    minScale,
-                    maxScale
-                )
+            const childStar = createStarHelper(
+                currentStar.depth + 1,
+                maxDepth,
+                bounds,
+                minScale,
+                maxScale
             );
+            setStarPosition(currentStar, childStar);
+            currentStar.neighbors.push(childStar);
+            starQueue.push(childStar);
+            stars.push(childStar);
+            currentStarCount += 1;
         }
     }
 
-    return rootStars;
+    return { rootStars, stars };
+}
+
+export function setStarPosition(parent: IParticle, child: IParticle) {
+    child.parent = parent;
+    child.arcAngle = parent.arcAngle;
+    child.arcLength = parent.arcLength;
+
+    const angle = parent.arcAngle * child.depth;
+    const dist = parent.arcLength;
+
+    child.position.x = parent.position.x + Math.cos(angle) * dist;
+    child.position.y = parent.position.y + Math.sin(angle) * dist;
 }

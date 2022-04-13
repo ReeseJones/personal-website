@@ -8,4 +8,7 @@ export interface IParticle {
     depth: number;
     scale: number;
     neighbors: IParticle[];
+    arcAngle: number;
+    arcLength: number;
+    parent: IParticle | null;
 }

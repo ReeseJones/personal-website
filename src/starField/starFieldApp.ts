@@ -4,6 +4,7 @@ import starCloud from "../images/starcloud.png";
 import { clamp, makeColor, randomNumber } from "../lib/helpers";
 import { IParticle } from "./IParticle";
 import { LineRenderer } from "./lineRenderer";
+import { spawnStars } from "./starSpawner";
 
 const starCount = 1000;
 const parallaxSpeedMultiplier = 2;
@@ -25,30 +26,37 @@ export class StarField {
     constructor(app: PIXI.Application) {
         this.particleContainer.blendMode = PIXI.BLEND_MODES.ADD;
         app.stage.addChild(this.particleContainer);
+        const spawnBounds = {
+            x: 0,
+            y: 0,
+            width: app.screen.width,
+            height: app.screen.height
+        };
+        const { rootStars, stars } = spawnStars(
+            spawnBounds,
+            starCount,
+            0.1,
+            1.3,
+            1,
+            1,
+            7
+        );
 
         const starTexture = PIXI.Texture.from(starCloud);
 
-        for (let i = 0; i < starCount; ++i) {
-            const star: IParticle = {
-                sprite: new PIXI.Sprite(starTexture),
-                direction: randomNumber(0, 2 * Math.PI),
-                directionSpeed: randomNumber(-Math.PI, Math.PI),
-                speed: 100 + 100 * Math.random(),
-                depthFactor: randomNumber(0.1, 0.9) * Math.pow(Math.random(), 7)
-            };
-            star.sprite.zIndex = star.depthFactor;
+        for (const star of stars) {
+            star.sprite = new PIXI.Sprite(starTexture);
+            star.sprite.zIndex = star.scale;
             star.sprite.anchor.set(0.5);
-            star.sprite.x =
-                -app.screen.width * 2 + Math.random() * app.screen.width * 4;
-            star.sprite.y =
-                -app.screen.height * 2 + Math.random() * app.screen.height * 4;
+            star.sprite.x = star.position.x;
+            star.sprite.y = star.position.y;
             star.sprite.tint = makeColor(
                 randomNumber(0.9, 1),
                 randomNumber(0.7, 0.9),
                 randomNumber(0.4, 0.7)
             );
-            star.sprite.scale.x = star.depthFactor * 1.3;
-            star.sprite.scale.y = star.sprite.scale.x;
+            star.sprite.scale.x = star.scale;
+            star.sprite.scale.y = star.scale;
 
             this.stars.push(star);
             this.particleContainer.addChild(star.sprite);
@@ -67,13 +75,12 @@ export class StarField {
 
         app.ticker.add((dtMs) => {
             const dt = dtMs / 1000;
-            for (let i = 0; i < starCount; i++) {
+            for (let i = 0; i < this.stars.length; i++) {
                 const star = this.stars[i];
-
                 star.direction += star.directionSpeed * dt;
-                //star.sprite.x += Math.cos(star.direction) * star.speed * dt;
-                //star.sprite.y += Math.sin(star.direction) * star.speed * dt;
-                star.sprite.rotation = star.direction;
+                if (star.sprite) {
+                    star.sprite.rotation = star.direction;
+                }
             }
         });
 
@@ -90,34 +97,35 @@ export class StarField {
                 const yDiff = mousePos.y - this.lastPosition.y;
                 this.lastPosition = new PIXI.Point(mousePos.x, mousePos.y);
 
-                for (let i = 0; i < starCount; i++) {
+                for (let i = 0; i < this.stars.length; i++) {
                     const star = this.stars[i];
+                    if (star.sprite) {
+                        star.sprite.x -=
+                            xDiff * star.scale * parallaxSpeedMultiplier;
+                        star.sprite.y -=
+                            yDiff * star.scale * parallaxSpeedMultiplier;
+                        if (star.sprite.x < starBounds.x) {
+                            star.sprite.x += starBounds.width;
+                        } else if (
+                            star.sprite.x >
+                            starBounds.x + starBounds.width
+                        ) {
+                            star.sprite.x -= starBounds.width;
+                        }
 
-                    star.sprite.x -=
-                        xDiff * star.depthFactor * parallaxSpeedMultiplier;
-                    star.sprite.y -=
-                        yDiff * star.depthFactor * parallaxSpeedMultiplier;
-                    if (star.sprite.x < starBounds.x) {
-                        star.sprite.x += starBounds.width;
-                    } else if (
-                        star.sprite.x >
-                        starBounds.x + starBounds.width
-                    ) {
-                        star.sprite.x -= starBounds.width;
-                    }
-
-                    if (star.sprite.y < starBounds.y) {
-                        star.sprite.y += starBounds.height;
-                    } else if (
-                        star.sprite.y >
-                        starBounds.y + starBounds.height
-                    ) {
-                        star.sprite.y -= starBounds.height;
+                        if (star.sprite.y < starBounds.y) {
+                            star.sprite.y += starBounds.height;
+                        } else if (
+                            star.sprite.y >
+                            starBounds.y + starBounds.height
+                        ) {
+                            star.sprite.y -= starBounds.height;
+                        }
                     }
                 }
             }
         );
 
-        const lineRnderer = new LineRenderer(app, this.stars);
+        const lineRnderer = new LineRenderer(app, rootStars);
     }
 }
