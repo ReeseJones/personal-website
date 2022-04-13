@@ -4,18 +4,18 @@ import { Header } from "../components/header";
 import "../styles.scss";
 import { usePixiApp } from "../hooks/usePixiApp";
 
-
 export const Layout: React.FC<React.ReactNode> = (props) => {
+  const [containerRef, pixiApp] = usePixiApp();
 
-    const [containerRef, pixiApp] = usePixiApp();
-
-    return <>
-        <div className="anim-background" ref={containerRef}>
-            <Header />
-            {props.children}
-            <Footer />
-        </div>
+  return (
+    <>
+      <div className="anim-background" ref={containerRef}>
+        <Header />
+        {props.children}
+        <Footer />
+      </div>
     </>
-}
+  );
+};
 
 export default Layout;
