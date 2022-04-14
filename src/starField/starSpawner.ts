@@ -1,11 +1,5 @@
 import { IParticle } from "./IParticle";
-import {
-    clamp,
-    lerp,
-    makeColor,
-    randomInt,
-    randomNumber
-} from "../lib/helpers";
+import { clamp, lerp, randomInt, randomNumber } from "../lib/helpers";
 
 export interface IPoint {
     x: number;
@@ -33,8 +27,8 @@ export function createStar(
         depth,
         scale: randomNumber(minScale, maxScale),
         neighbors: [],
-        arcAngle: randomNumber(-Math.PI / 3, Math.PI / 3),
-        arcLength: randomNumber(10, 50),
+        arcAngle: (Math.random() > 0.5 ? 1 : -1) * randomNumber(0.8, 2),
+        arcLength: randomNumber(60, 100),
         parent: null
     };
 }
@@ -68,7 +62,7 @@ export function spawnStars(
     const rootStars: IParticle[] = [];
     const starQueue: IParticle[] = [];
     const stars: IParticle[] = [];
-    const rootStarCount = Math.pow(count, 1 / maxDepth);
+    const rootStarCount = count;
     let currentStarCount = 0;
 
     //spawn root stars
@@ -86,7 +80,7 @@ export function spawnStars(
         currentStarCount += 1;
     }
 
-    while (currentStarCount < count && starQueue.length) {
+    while (currentStarCount < 10000 && starQueue.length) {
         const currentStar = starQueue.pop();
         if (!currentStar || currentStar.depth === maxDepth) continue;
 
@@ -100,7 +94,7 @@ export function spawnStars(
                 minScale,
                 maxScale
             );
-            setStarPosition(currentStar, childStar);
+            setStarPosition(currentStar, childStar, i);
             currentStar.neighbors.push(childStar);
             starQueue.push(childStar);
             stars.push(childStar);
@@ -111,12 +105,16 @@ export function spawnStars(
     return { rootStars, stars };
 }
 
-export function setStarPosition(parent: IParticle, child: IParticle) {
+export function setStarPosition(
+    parent: IParticle,
+    child: IParticle,
+    childIndex: number
+) {
     child.parent = parent;
     child.arcAngle = parent.arcAngle;
     child.arcLength = parent.arcLength;
 
-    const angle = parent.arcAngle * child.depth;
+    const angle = parent.arcAngle * (childIndex + 1) * child.depth;
     const dist = parent.arcLength;
 
     child.position.x = parent.position.x + Math.cos(angle) * dist;

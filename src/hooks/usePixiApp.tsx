@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
-import { StarField } from "../starField/starFieldApp";
 
 export const usePixiApp = () => {
     const [appContainer, setAppContainer] = useState<HTMLElement | null>(null);
+    const [viewMounted, setViewMounted] = useState(false);
 
     const pixiApp = useRef<PIXI.Application | null>(null);
 
@@ -15,13 +15,6 @@ export const usePixiApp = () => {
             backgroundColor: 0
         });
         pixiApp.current.view.classList.add("hero-effect");
-
-        //creating starField ont pixi app
-        setTimeout(() => {
-            const starField = new StarField(
-                pixiApp.current as PIXI.Application
-            );
-        }, 1000);
 
         return () => {
             console.log("destroying pixi app");
@@ -38,10 +31,27 @@ export const usePixiApp = () => {
             setTimeout(() => pixiApp.current?.resize(), 1);
         }
 
+        const resizeChecker = setInterval(() => {
+            if (pixiApp.current?.resizeTo === appContainer) {
+                if (
+                    appContainer.offsetWidth ===
+                        pixiApp.current.view.offsetWidth &&
+                    appContainer.offsetHeight ===
+                        pixiApp.current.view.offsetHeight
+                ) {
+                    if (!viewMounted) {
+                        setViewMounted(true);
+                    }
+                }
+            }
+        }, 100);
+
         return () => {
             if (pixiApp.current && appContainer) {
                 console.log("removed pixi view");
                 appContainer.removeChild(pixiApp.current.view);
+                setViewMounted(false);
+                clearInterval(resizeChecker);
             }
         };
     }, [appContainer]);
@@ -52,5 +62,5 @@ export const usePixiApp = () => {
         }
     }, []);
 
-    return [containerMounting, pixiApp] as const;
+    return [containerMounting, pixiApp, viewMounted] as const;
 };

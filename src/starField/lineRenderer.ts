@@ -1,13 +1,8 @@
 import * as PIXI from "pixi.js";
-import {
-    clamp,
-    getRandomIndices,
-    randomInt,
-    randomNumber
-} from "../lib/helpers";
+import { randomInt, randomNumber } from "../lib/helpers";
 import lineGradient from "../images/lineGradient.png";
 import { IParticle } from "./IParticle";
-import { average, direction, length, subtract } from "../lib/point-math";
+import { average, length, subtract } from "../lib/point-math";
 
 export interface ILineParticle {
     sprite: PIXI.Sprite;
@@ -15,45 +10,14 @@ export interface ILineParticle {
     currentAge: number;
     start: IParticle;
     end: IParticle;
-}
-
-export function pickStars(stars: IParticle[]) {
-    const firstIndex = randomInt(0, stars.length - 1);
-    let first = stars[firstIndex];
-
-    for (let i = 0; i < stars.length; i += 1) {
-        first = stars[(firstIndex + i) % stars.length];
-
-        if (first.depthFactor < 0.6) continue;
-        if (first.sprite.position.x < 200 || first.sprite.position.x > 1600)
-            continue;
-        if (first.sprite.position.y < 200 || first.sprite.position.y > 700)
-            continue;
-        break;
-    }
-
-    const secondIndex = randomInt(0, stars.length - 1);
-    let second = stars[secondIndex];
-    for (let i = 0; i < stars.length; i += 1) {
-        second = stars[(firstIndex + i) % stars.length];
-        const dist = length(
-            subtract(first.sprite.position, second.sprite.position)
-        );
-        const depthDiff = Math.abs(first.depthFactor - second.depthFactor);
-
-        if (depthDiff < 0.3) continue;
-        if (dist > 200) continue;
-        if (first === second) continue;
-        if (second.sprite.position.x < 0 || second.sprite.position.x > 1800)
-            continue;
-        if (second.sprite.position.y < 0 || second.sprite.position.y > 900)
-            continue;
-        break;
-    }
-    return { first, second };
+    parent: IParticle;
 }
 
 export function updateLineParticle(line: ILineParticle) {
+    if (!line) return;
+    if (!line.start || !line.end) return;
+    if (!line.start.sprite || !line.end.sprite) return;
+
     const newPos = average(
         line.start.sprite.position,
         line.end.sprite.position
@@ -68,12 +32,16 @@ export function updateLineParticle(line: ILineParticle) {
     line.sprite.alpha = Math.sin(age * Math.PI);
 }
 
+const maxLifeTime = 1.5;
+
 export class LineRenderer {
     private lineContainer = new PIXI.Container();
 
     private lines: ILineParticle[] = [];
 
-    private lineCount = 5;
+    private lineCount = 40;
+
+    private isDestroyed = false;
 
     constructor(private app: PIXI.Application, private stars: IParticle[]) {
         app.stage.addChild(this.lineContainer);
@@ -81,36 +49,63 @@ export class LineRenderer {
         const lineTexture = PIXI.Texture.from(lineGradient);
 
         for (let i = 0; i < this.lineCount; i += 1) {
-            const starPicks = pickStars(this.stars);
+            const startingStar =
+                this.stars[randomInt(0, this.stars.length - 1)];
             const lineParticle: ILineParticle = {
                 sprite: new PIXI.Sprite(lineTexture),
-                lifetime: 3,
-                currentAge: randomNumber(0, 3),
-                start: starPicks.first,
-                end: starPicks.second
+                lifetime: maxLifeTime,
+                currentAge: randomNumber(0, maxLifeTime),
+                start: startingStar,
+                end: startingStar.neighbors[
+                    randomInt(0, startingStar.neighbors.length - 1)
+                ],
+                parent: startingStar
             };
             lineParticle.sprite.anchor.set(0.5);
+            lineParticle.sprite.scale.y = 0.25;
             updateLineParticle(lineParticle);
 
             this.lineContainer.addChild(lineParticle.sprite);
             this.lines.push(lineParticle);
         }
 
-        app.ticker.add((dtMs) => {
-            const dt = app.ticker.elapsedMS / 1000;
-            //console.log(`dtMs:${dtMs} -> dt / 1000: ${dt}`);
-
-            for (const line of this.lines) {
-                if (line.currentAge > line.lifetime) {
-                    const starPicks = pickStars(this.stars);
-                    line.end = line.start;
-                    line.start = starPicks.second;
-                    line.currentAge = line.currentAge % line.lifetime;
-                    line.lifetime = randomNumber(2, 4);
-                }
-                updateLineParticle(line);
-                line.currentAge += dt;
-            }
-        });
+        app.ticker.add(this.update);
     }
+
+    public destroy(): void {
+        this.lineContainer.destroy({
+            children: true,
+            texture: true,
+            baseTexture: true
+        });
+        this.app.ticker.remove(this.update);
+    }
+
+    private update = () => {
+        if (this.isDestroyed) return;
+
+        const dt = this.app.ticker.elapsedMS / 1000;
+        for (const line of this.lines) {
+            if (line.currentAge > line.lifetime) {
+                if (line.end.neighbors.length) {
+                    line.start = line.end;
+                    line.end =
+                        line.end.neighbors[
+                            randomInt(0, line.end.neighbors.length - 1)
+                        ];
+                } else {
+                    line.start = line.parent;
+                    line.end =
+                        line.start.neighbors[
+                            randomInt(0, line.start.neighbors.length - 1)
+                        ];
+                }
+
+                line.currentAge = line.currentAge % line.lifetime;
+                line.lifetime = randomNumber(1, maxLifeTime);
+            }
+            updateLineParticle(line);
+            line.currentAge += dt;
+        }
+    };
 }
