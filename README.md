@@ -22,11 +22,11 @@
 
 
 ## 🚀 View live deployment on Gatsby
-    View the website here:
+View the website here:
 
-   ```shell
-    https://personalwebsitemaster79811.gatsbyjs.io/
-   ```
+```shell
+https://personalwebsitemaster79811.gatsbyjs.io/
+```
 
 ## About
-    This repo is for my personal portfolio website which I intend to use as a place to try new technologies, write a personal blog about my life, and write tutorials about the technologies I use.
+This repo is for my personal portfolio website which I intend to use as a place to try new technologies, write a personal blog about my life, and write tutorials about the technologies I use.
