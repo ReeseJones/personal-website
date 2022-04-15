@@ -10,5 +10,7 @@ export interface IParticle {
     neighbors: IParticle[];
     arcAngle: number;
     arcLength: number;
+    driftDirection: number;
+    driftMagnitude: number;
     parent: IParticle | null;
 }

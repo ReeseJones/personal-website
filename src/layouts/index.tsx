@@ -6,9 +6,9 @@ import { usePixiApp } from "../hooks/usePixiApp";
 import { usePixiStarBackground } from "../hooks/usePixiStarBackground";
 
 export const Layout: React.FC<React.ReactNode> = (props) => {
-    const [rootStarCount, setRootStarCount] = React.useState(90);
+    const [rootStarCount, setRootStarCount] = React.useState(120);
     const [containerRef, pixiApp, viewMounted] = usePixiApp();
-    usePixiStarBackground(pixiApp.current, viewMounted, 7, 1, 1, rootStarCount);
+    usePixiStarBackground(pixiApp.current, viewMounted, 6, 2, 1, rootStarCount);
 
     return (
         <>

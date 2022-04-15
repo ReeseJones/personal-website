@@ -22,7 +22,7 @@ export class StarField {
     private lastPosition = new PIXI.Point(0, 0);
     private starTexture = PIXI.Texture.from(starCloud);
     private lineRenderer: LineRenderer | null = null;
-    private parallaxSpeedMultiplier = 2;
+    private parallaxSpeedMultiplier = 0.7;
 
     constructor(private app: PIXI.Application, options?: IStarFieldParameters) {
         this.particleContainer.blendMode = PIXI.BLEND_MODES.ADD;
@@ -30,10 +30,10 @@ export class StarField {
         const width = app.screen.width;
         const height = app.screen.height;
         const spawnBounds = {
-            x: -width / 2,
-            y: -height / 2,
-            width: width * 1.5,
-            height: height * 1.5
+            x: -width,
+            y: -height,
+            width: width * 2,
+            height: height * 2
         };
         const defaultOptions = {
             count: 50,
@@ -80,18 +80,10 @@ export class StarField {
         this.particleContainer.sortableChildren = true;
         this.particleContainer.sortChildren();
         app.ticker.add(this.update);
-        app.renderer.plugins.interaction.on(
-            "pointermove",
-            this.pointerMoveHandler
-        );
         this.lineRenderer = new LineRenderer(app, rootStars);
     }
 
     public destroy(): void {
-        this.app.renderer.plugins.interaction.removeListener(
-            "pointermove",
-            this.pointerMoveHandler
-        );
         this.app.ticker.remove(this.update);
         this.starTexture.destroy();
         this.app.stage.removeChild(this.particleContainer);
@@ -115,8 +107,12 @@ export class StarField {
         const screenHeight = this.app.screen.height;
 
         const vec = {
-            x: (mousePos.x - screenWidth / 2) / (screenWidth / 2),
-            y: (mousePos.y - screenHeight / 2) / (screenHeight / 2)
+            x:
+                (mousePos.x - screenWidth / 2) / (screenWidth / 2) +
+                Math.sin(this.spinner * Math.PI) * Math.cos(this.spinner * 25),
+            y:
+                (mousePos.y - screenHeight / 2) / (screenHeight / 2) +
+                Math.sin(3 * this.spinner * Math.PI) * Math.cos(this.spinner * 25)
         };
         const finalOffset = {
             x:
@@ -132,21 +128,15 @@ export class StarField {
         return finalOffset;
     };
 
+    private spinner = 0;
     private update = () => {
         const dt = this.app.ticker.elapsedMS / 1000;
+        this.spinner += (Math.PI / 512) * dt;
         for (let i = 0; i < this.stars.length; i++) {
             const star = this.stars[i];
             star.direction += star.directionSpeed * dt;
             if (star.sprite) {
                 star.sprite.rotation = star.direction;
-            }
-        }
-    };
-
-    private pointerMoveHandler = (/*event: PIXI.InteractionEvent*/) => {
-        for (let i = 0; i < this.stars.length; i++) {
-            const star = this.stars[i];
-            if (star.sprite) {
                 const offset = this.getMouseOffsetPosition(star.scale);
                 star.sprite.x = star.position.x + offset.x;
                 star.sprite.y = star.position.y + offset.y;

@@ -1,5 +1,7 @@
 import { IParticle } from "./IParticle";
 import { clamp, lerp, randomInt, randomNumber } from "../lib/helpers";
+import { length, subtract } from "../lib/point-math";
+import { IPointData } from "pixi.js";
 
 export interface IPoint {
     x: number;
@@ -27,9 +29,11 @@ export function createStar(
         depth,
         scale: randomNumber(minScale, maxScale),
         neighbors: [],
-        arcAngle: (Math.random() > 0.5 ? 1 : -1) * randomNumber(0.8, 2),
+        arcAngle: (Math.random() > 0.5 ? 1 : -1) * randomNumber(0.4, 1),
         arcLength: randomNumber(60, 100),
-        parent: null
+        parent: null,
+        driftDirection: randomNumber(0, Math.PI * 2),
+        driftMagnitude: randomNumber(100, 200)
     };
 }
 
@@ -94,7 +98,10 @@ export function spawnStars(
                 minScale,
                 maxScale
             );
-            setStarPosition(currentStar, childStar, i);
+            setStarPosition(currentStar, childStar, i, {
+                x: 1920 / 2,
+                y: 1080 / 2
+            });
             currentStar.neighbors.push(childStar);
             starQueue.push(childStar);
             stars.push(childStar);
@@ -108,15 +115,22 @@ export function spawnStars(
 export function setStarPosition(
     parent: IParticle,
     child: IParticle,
-    childIndex: number
+    childIndex: number,
+    worldCenter: IPointData
 ) {
     child.parent = parent;
     child.arcAngle = parent.arcAngle;
     child.arcLength = parent.arcLength;
+    child.driftDirection = parent.driftDirection;
+    child.driftMagnitude = parent.driftMagnitude;
 
     const angle = parent.arcAngle * (childIndex + 1) * child.depth;
     const dist = parent.arcLength;
+    const diff = subtract(worldCenter, parent.position);
+    const driftLength = length(diff);
+    const xDrift = (diff.x / driftLength) * parent.driftMagnitude;
+    const yDrift = (diff.y / driftLength) * parent.driftMagnitude;
 
-    child.position.x = parent.position.x + Math.cos(angle) * dist;
-    child.position.y = parent.position.y + Math.sin(angle) * dist;
+    child.position.x = parent.position.x + Math.cos(angle) * dist + xDrift;
+    child.position.y = parent.position.y + Math.sin(angle) * dist + yDrift;
 }

@@ -39,7 +39,7 @@ export class LineRenderer {
 
     private lines: ILineParticle[] = [];
 
-    private lineCount = 40;
+    private lineCount = 15;
 
     private isDestroyed = false;
 
