@@ -23,7 +23,7 @@ export function createStar(
         sprite: null,
         position,
         direction: randomNumber(0, 2 * Math.PI),
-        directionSpeed: randomNumber(-Math.PI, Math.PI),
+        directionSpeed: randomNumber(-Math.PI / 8, Math.PI / 8),
         depth,
         scale: randomNumber(minScale, maxScale),
         neighbors: [],
