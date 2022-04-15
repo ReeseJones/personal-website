@@ -1,13 +1,12 @@
 import * as PIXI from "pixi.js";
+import { IPointData } from "pixi.js";
 
 import starCloud from "../images/starcloud.png";
-import { clamp, makeColor, randomNumber } from "../lib/helpers";
+import { makeColor, randomNumber } from "../lib/helpers";
 import { IParticle } from "./IParticle";
 import { IStarFieldParameters } from "./IStarFieldParameters";
 import { LineRenderer } from "./lineRenderer";
 import { spawnStars } from "./starSpawner";
-
-const parallaxSpeedMultiplier = 2;
 
 export class StarField {
     private particleContainer = new PIXI.ParticleContainer(10000, {
@@ -20,14 +19,10 @@ export class StarField {
     });
 
     private stars: IParticle[] = [];
-
     private lastPosition = new PIXI.Point(0, 0);
-
     private starTexture = PIXI.Texture.from(starCloud);
-
-    private square = new PIXI.Graphics();
-
     private lineRenderer: LineRenderer | null = null;
+    private parallaxSpeedMultiplier = 2;
 
     constructor(private app: PIXI.Application, options?: IStarFieldParameters) {
         this.particleContainer.blendMode = PIXI.BLEND_MODES.ADD;
@@ -40,7 +35,7 @@ export class StarField {
             width: width * 1.5,
             height: height * 1.5
         };
-        options = {
+        const defaultOptions = {
             count: 50,
             minScale: 0.1,
             maxScale: 1.3,
@@ -51,12 +46,12 @@ export class StarField {
         };
         const { rootStars, stars } = spawnStars(
             spawnBounds,
-            options.count,
-            options.minScale,
-            options.maxScale,
-            options.minEdges,
-            options.maxEdges,
-            options.maxDepth
+            defaultOptions.count,
+            defaultOptions.minScale,
+            defaultOptions.maxScale,
+            defaultOptions.minEdges,
+            defaultOptions.maxEdges,
+            defaultOptions.maxDepth
         );
 
         console.log(
@@ -67,8 +62,6 @@ export class StarField {
             star.sprite = new PIXI.Sprite(this.starTexture);
             star.sprite.zIndex = star.scale;
             star.sprite.anchor.set(0.5);
-            star.sprite.x = star.position.x;
-            star.sprite.y = star.position.y;
             star.sprite.tint = makeColor(
                 randomNumber(0.9, 1),
                 randomNumber(0.7, 0.9),
@@ -76,6 +69,9 @@ export class StarField {
             );
             star.sprite.scale.x = star.scale;
             star.sprite.scale.y = star.scale;
+            const offset = this.getMouseOffsetPosition(star.scale);
+            star.sprite.x = star.position.x + offset.x;
+            star.sprite.y = star.position.y + offset.y;
 
             this.stars.push(star);
             this.particleContainer.addChild(star.sprite);
@@ -89,25 +85,6 @@ export class StarField {
             this.pointerMoveHandler
         );
         this.lineRenderer = new LineRenderer(app, rootStars);
-
-        this.square.beginFill(0xffffff, 0);
-        this.square.lineStyle(3, 0xff0000, 1);
-        this.square.drawRect(0, 0, app.screen.width, app.screen.height);
-        this.square.endFill();
-        this.square.beginFill(0x00ff00, 0);
-        this.square.lineStyle(3, 0x00ff00, 1);
-        this.square.drawRect(-5, -5, 10, 10);
-        this.square.endFill();
-        this.square.beginFill(0x0000ff, 0);
-        this.square.lineStyle(3, 0x0000ff, 1);
-        this.square.drawRect(
-            -5 + app.screen.width,
-            -5 + app.screen.height,
-            10,
-            10
-        );
-        this.square.endFill();
-        //this.app.stage.addChild(this.square);
     }
 
     public destroy(): void {
@@ -126,8 +103,37 @@ export class StarField {
         this.lineRenderer?.destroy();
     }
 
-    private update = (dtMs: number) => {
-        const dt = dtMs / 1000;
+    private getMouseOffsetPosition = (speedMultiplier: number) => {
+        const mousePos: IPointData =
+            this.app.renderer.plugins.interaction.mouse.global;
+
+        if (this.lastPosition.x === 0 && this.lastPosition.y === 0) {
+            this.lastPosition = new PIXI.Point(mousePos.x, mousePos.y);
+        }
+
+        const screenWidth = this.app.screen.width;
+        const screenHeight = this.app.screen.height;
+
+        const vec = {
+            x: (mousePos.x - screenWidth / 2) / (screenWidth / 2),
+            y: (mousePos.y - screenHeight / 2) / (screenHeight / 2)
+        };
+        const finalOffset = {
+            x:
+                ((-vec.x * screenWidth) / 2) *
+                speedMultiplier *
+                this.parallaxSpeedMultiplier,
+            y:
+                ((-vec.y * screenHeight) / 2) *
+                speedMultiplier *
+                this.parallaxSpeedMultiplier
+        };
+
+        return finalOffset;
+    };
+
+    private update = () => {
+        const dt = this.app.ticker.elapsedMS / 1000;
         for (let i = 0; i < this.stars.length; i++) {
             const star = this.stars[i];
             star.direction += star.directionSpeed * dt;
@@ -137,41 +143,14 @@ export class StarField {
         }
     };
 
-    private pointerMoveHandler = (event: PIXI.InteractionEvent) => {
-        const mousePos = event.data.global;
-
-        if (this.lastPosition.x === 0 && this.lastPosition.y === 0) {
-            this.lastPosition = new PIXI.Point(mousePos.x, mousePos.y);
-        }
-
-        const vec = {
-            x:
-                (mousePos.x - this.app.screen.width / 2) /
-                (this.app.screen.width / 2),
-            y:
-                (mousePos.y - this.app.screen.height / 2) /
-                (this.app.screen.height / 2)
-        };
-
+    private pointerMoveHandler = (/*event: PIXI.InteractionEvent*/) => {
         for (let i = 0; i < this.stars.length; i++) {
             const star = this.stars[i];
             if (star.sprite) {
-                star.sprite.x =
-                    ((-vec.x * 0.3 * this.app.screen.width) / 2) *
-                        star.scale *
-                        parallaxSpeedMultiplier +
-                    star.position.x;
-                star.sprite.y =
-                    ((-vec.y * 0.3 * this.app.screen.width) / 2) *
-                        star.scale *
-                        parallaxSpeedMultiplier +
-                    star.position.y;
+                const offset = this.getMouseOffsetPosition(star.scale);
+                star.sprite.x = star.position.x + offset.x;
+                star.sprite.y = star.position.y + offset.y;
             }
         }
-
-        this.square.position.x =
-            -vec.x * this.app.screen.width * parallaxSpeedMultiplier;
-        this.square.position.y =
-            -vec.y * this.app.screen.height * parallaxSpeedMultiplier;
     };
 }
