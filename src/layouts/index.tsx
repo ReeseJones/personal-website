@@ -6,7 +6,7 @@ import { usePixiApp } from "../hooks/usePixiApp";
 import { usePixiStarBackground } from "../hooks/usePixiStarBackground";
 
 export const Layout: React.FC<React.ReactNode> = (props) => {
-    const [rootStarCount, setRootStarCount] = React.useState(5);
+    const [rootStarCount, setRootStarCount] = React.useState(90);
     const [containerRef, pixiApp, viewMounted] = usePixiApp();
     usePixiStarBackground(pixiApp.current, viewMounted, 7, 1, 1, rootStarCount);
 
@@ -16,7 +16,7 @@ export const Layout: React.FC<React.ReactNode> = (props) => {
                 className="anim-background"
                 ref={containerRef}
                 onClick={() => {
-                    setRootStarCount(rootStarCount + 1);
+                    setRootStarCount(rootStarCount + -10 + Math.random() * 20);
                 }}
             >
                 <Header />
