@@ -31,12 +31,7 @@ const ArticlesPage = ({ data }: { data: Query }) => {
         };
     });
 
-    return (
-        <>
-            <p>Articles Page!</p>
-            <CardContainer>{cards}</CardContainer>
-        </>
-    );
+    return <CardContainer>{cards}</CardContainer>;
 };
 
 export const query = graphql`

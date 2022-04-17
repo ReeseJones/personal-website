@@ -16,6 +16,7 @@ module.exports = {
             }
         },
         "gatsby-plugin-sharp",
+        "gatsby-remark-images",
         "gatsby-transformer-sharp",
         {
             resolve: "gatsby-source-filesystem",
@@ -25,7 +26,19 @@ module.exports = {
             },
             __key: "images"
         },
-        "gatsby-plugin-mdx",
+        {
+            resolve: `gatsby-plugin-mdx`,
+            options: {
+                gatsbyRemarkPlugins: [
+                    {
+                        resolve: `gatsby-remark-images`,
+                        options: {
+                            maxWidth: 1200
+                        }
+                    }
+                ]
+            }
+        },
         {
             resolve: "gatsby-source-filesystem",
             options: {
