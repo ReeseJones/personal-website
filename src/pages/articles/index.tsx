@@ -1,9 +1,9 @@
 import * as React from "react";
 import { graphql } from "gatsby";
-import { ICardProps } from "../components/card";
-import { CardContainer } from "../components/cardContainer";
-import { Query } from "../../graphql-types";
 import { MDXRenderer } from "gatsby-plugin-mdx";
+import { Query } from "../../../graphql-types";
+import { ICardProps } from "../../components/card";
+import { CardContainer } from "../../components/cardContainer";
 
 const ArticlesPage = ({ data }: { data: Query }) => {
     const cardBanner = (

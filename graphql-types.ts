@@ -3372,6 +3372,13 @@ export type MyQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MyQueryQuery = { allMdx: { nodes: Array<{ id: string, body: string, frontmatter?: { date?: any | null, title: string } | null }> } };
 
+export type Unnamed_1_QueryVariables = Exact<{
+  id?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type Unnamed_1_Query = { mdx?: { body: string, frontmatter?: { title: string, date?: any | null } | null } | null };
+
 export type GatsbyImageSharpFixedFragment = { base64?: string | null, width: number, height: number, src: string, srcSet: string };
 
 export type GatsbyImageSharpFixed_TracedSvgFragment = { tracedSVG?: string | null, width: number, height: number, src: string, srcSet: string };
