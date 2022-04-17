@@ -12,13 +12,7 @@ export const Layout: React.FC<React.ReactNode> = (props) => {
 
     return (
         <>
-            <div
-                className="anim-background"
-                ref={containerRef}
-                onClick={() => {
-                    setRootStarCount(rootStarCount + -10 + Math.random() * 20);
-                }}
-            >
+            <div className="anim-background" ref={containerRef}>
                 <Header />
                 {props.children}
                 <Footer />

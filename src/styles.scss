@@ -1,12 +1,10 @@
-@use "colors";
+@use "shared";
 @use "gatsbyStyleClear";
 @use "clear";
+@use "flex";
 
 .article-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    @include flex.flex-container(column, center);
 
     img {
         margin-top: 8rem;
@@ -36,7 +34,7 @@
 }
 
 .hero-effect {
-    z-index: -1;
+    z-index: -10;
     position: fixed;
     left: 0;
     top: 0;

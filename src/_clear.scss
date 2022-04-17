@@ -1,11 +1,11 @@
-@use "colors";
+@use "shared";
 
 html {
     width: 100%;
     height: 100%;
-    font: 100% colors.$font-stack;
+    font: 100% shared.$font-stack;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    color: colors.$font-color;
+    color: shared.$font-color;
     margin: 0;
     padding: 0;
     position: absolute;
@@ -22,4 +22,13 @@ body {
     width: 100%;
     height: 100%;
     background: black;
+}
+
+article, section, nav, figure, aside {
+    position: relative;
+}
+
+h1, h2, h3, h4, h5 h6 {
+    padding: 0;
+    margin: 0;
 }

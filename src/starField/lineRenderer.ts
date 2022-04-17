@@ -62,7 +62,7 @@ export class LineRenderer {
                 parent: startingStar
             };
             lineParticle.sprite.anchor.set(0.5);
-            lineParticle.sprite.scale.y = 0.25;
+            lineParticle.sprite.scale.y = 0.5;
             updateLineParticle(lineParticle);
 
             this.lineContainer.addChild(lineParticle.sprite);

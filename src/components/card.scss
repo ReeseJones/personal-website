@@ -1,0 +1,36 @@
+@use "./../shared" as shared;
+@use "./../flex" as flex;
+
+.card-container {
+    @include flex.flex-container(row, center);
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem 2rem;
+}
+
+.card {
+    @include flex.flex-container(column, center);
+    justify-content: end;
+    flex: 0 0 auto;
+    background: white;
+    color: shared.$light-font-color;
+    z-index: -2;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.card-details {
+    display: flex;
+    flex: 1 1 auto;
+    padding: shared.$padding-size
+}
+
+.card-title {
+    font-weight: 800;
+    font-size: 2rem;
+}
+
+.card-background {
+    position: relative;
+    width: 100%;
+}
