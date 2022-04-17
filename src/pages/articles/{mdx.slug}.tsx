@@ -2,6 +2,7 @@ import * as React from "react";
 import { graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { Query } from "../../../graphql-types";
+import { StaticImage } from "gatsby-plugin-image";
 
 const ArticlePage = ({ data }: { data: Query }) => {
     return (
@@ -10,7 +11,9 @@ const ArticlePage = ({ data }: { data: Query }) => {
                 <h1>{data?.mdx?.frontmatter?.title}</h1>
                 <p>{data?.mdx?.frontmatter?.date}</p>
                 {data?.mdx?.body ? (
-                    <MDXRenderer>{data.mdx.body}</MDXRenderer>
+                    <MDXRenderer components={{ StaticImage }}>
+                        {data.mdx.body}
+                    </MDXRenderer>
                 ) : null}
             </article>
         </>

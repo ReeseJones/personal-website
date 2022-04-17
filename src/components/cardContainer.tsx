@@ -10,7 +10,7 @@ export const CardContainer: React.FC<ICardContainerProps> = (props) => {
     return (
         <div className="card-container">
             {props.children.map((child) => {
-                return <Card {...child}></Card>;
+                return <Card {...child} key={child.id}></Card>;
             })}
         </div>
     );

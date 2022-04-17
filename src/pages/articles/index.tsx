@@ -1,6 +1,5 @@
 import * as React from "react";
-import { graphql } from "gatsby";
-import { MDXRenderer } from "gatsby-plugin-mdx";
+import { graphql, Link } from "gatsby";
 import { Query } from "../../../graphql-types";
 import { ICardProps } from "../../components/card";
 import { CardContainer } from "../../components/cardContainer";
@@ -22,9 +21,13 @@ const ArticlesPage = ({ data }: { data: Query }) => {
     const cards: ICardProps[] = data.allMdx.nodes.map((node) => {
         return {
             id: node?.id,
-            title: <h2>{node?.frontmatter?.title}</h2>,
+            title: (
+                <Link to={`/articles/${node.slug}`}>
+                    {<h2>{node?.frontmatter?.title}</h2>}
+                </Link>
+            ),
             backgroundElement: cardBanner,
-            children: <MDXRenderer>{node.body}</MDXRenderer>
+            children: dummyContent
         };
     });
 
@@ -37,7 +40,7 @@ const ArticlesPage = ({ data }: { data: Query }) => {
 };
 
 export const query = graphql`
-    query MyQuery {
+    query {
         allMdx(sort: { fields: frontmatter___date, order: DESC }) {
             nodes {
                 frontmatter {
@@ -45,7 +48,7 @@ export const query = graphql`
                     title
                 }
                 id
-                body
+                slug
             }
         }
     }
