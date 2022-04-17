@@ -1,7 +1,8 @@
 module.exports = {
     siteMetadata: {
         siteUrl: "https://www.reesedrjones.com",
-        title: "Reese Jones | Software Engineer"
+        title: "Reese Jones | Software Engineer",
+        description: "Portfolio of Reese Jones."
     },
     plugins: [
         "gatsby-plugin-sass",
@@ -23,6 +24,15 @@ module.exports = {
                 path: "./src/images/"
             },
             __key: "images"
-        }
+        },
+        "gatsby-plugin-mdx",
+        {
+            resolve: "gatsby-source-filesystem",
+            options: {
+                name: "articles",
+                path: `${__dirname}/articles`
+            }
+        },
+        "gatsby-plugin-graphql-codegen"
     ]
 };

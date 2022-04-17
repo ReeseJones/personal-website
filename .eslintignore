@@ -2,3 +2,4 @@
 public
 eslintrc.js
 gatsby.*.js
+graphql-types.ts
