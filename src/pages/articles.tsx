@@ -3,6 +3,7 @@ import { graphql } from "gatsby";
 import { ICardProps } from "../components/card";
 import { CardContainer } from "../components/cardContainer";
 import { Query } from "../../graphql-types";
+import { MDXRenderer } from "gatsby-plugin-mdx";
 
 const ArticlesPage = ({ data }: { data: Query }) => {
     const cardBanner = (
@@ -20,9 +21,10 @@ const ArticlesPage = ({ data }: { data: Query }) => {
 
     const cards: ICardProps[] = data.allMdx.nodes.map((node) => {
         return {
+            id: node?.id,
             title: <h2>{node?.frontmatter?.title}</h2>,
             backgroundElement: cardBanner,
-            children: dummyContent
+            children: <MDXRenderer>{node.body}</MDXRenderer>
         };
     });
 
@@ -36,12 +38,14 @@ const ArticlesPage = ({ data }: { data: Query }) => {
 
 export const query = graphql`
     query MyQuery {
-        allMdx {
+        allMdx(sort: { fields: frontmatter___date, order: DESC }) {
             nodes {
                 frontmatter {
-                    date
+                    date(formatString: "MMMM D, YYYY")
                     title
                 }
+                id
+                body
             }
         }
     }

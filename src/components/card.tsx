@@ -1,7 +1,7 @@
-import React, { JSXElementConstructor, ReactElement, ReactNode } from "react";
+import React, { JSXElementConstructor, ReactElement } from "react";
 import "./card.scss";
-
 export interface ICardProps {
+    id: string;
     title: ReactElement<any, string | JSXElementConstructor<any>>;
     backgroundElement?: ReactElement<any, string | JSXElementConstructor<any>>;
     children?: React.ReactNode;
@@ -15,7 +15,7 @@ export const Card: React.FC<ICardProps> = (props) => {
         : null;
 
     return (
-        <section className="card">
+        <section className="card" key={props.id}>
             {bgEl}
             {React.cloneElement(props.title, { className: "card-title" })}
             <section className="card-details">{props.children}</section>

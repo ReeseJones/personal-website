@@ -3359,7 +3359,7 @@ export type MdxSortInput = {
 export type MyQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyQueryQuery = { allMdx: { nodes: Array<{ frontmatter?: { date?: any | null, title: string } | null }> } };
+export type MyQueryQuery = { allMdx: { nodes: Array<{ id: string, body: string, frontmatter?: { date?: any | null, title: string } | null }> } };
 
 export type GatsbyImageSharpFixedFragment = { base64?: string | null, width: number, height: number, src: string, srcSet: string };
 
