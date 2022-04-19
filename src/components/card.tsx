@@ -17,8 +17,10 @@ export const Card: React.FC<ICardProps> = (props) => {
     return (
         <section className="card" key={props.id}>
             {bgEl}
-            {React.cloneElement(props.title, { className: "card-title" })}
-            <section className="card-details">{props.children}</section>
+            <div className="card-content">
+                {React.cloneElement(props.title, { className: "card-title" })}
+                <section className="card-details">{props.children}</section>
+            </div>
         </section>
     );
 };

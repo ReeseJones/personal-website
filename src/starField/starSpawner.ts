@@ -33,7 +33,7 @@ export function createStar(
         arcLength: randomNumber(60, 100),
         parent: null,
         driftDirection: randomNumber(0, Math.PI * 2),
-        driftMagnitude: randomNumber(100, 200)
+        driftMagnitude: randomNumber(20, 60)
     };
 }
 
@@ -87,8 +87,10 @@ export function spawnStars(
     while (currentStarCount < 10000 && starQueue.length) {
         const currentStar = starQueue.pop();
         if (!currentStar || currentStar.depth === maxDepth) continue;
-
-        const childrenCount = randomInt(minEdges, maxEdges);
+        const depthProgress = currentStar.depth / maxDepth;
+        const childrenCount = Math.round(
+            lerp(minEdges, maxEdges, depthProgress * depthProgress)
+        );
 
         for (let i = 0; i < childrenCount; i += 1) {
             const childStar = createStarHelper(

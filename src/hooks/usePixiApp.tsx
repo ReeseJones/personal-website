@@ -26,35 +26,47 @@ export const usePixiApp = () => {
     useEffect(() => {
         if (appContainer !== null && pixiApp.current) {
             console.log("Added pixi view");
-            pixiApp.current.resizeTo = appContainer;
+            pixiApp.current.resizeTo = window;
             appContainer.appendChild(pixiApp.current.view);
             setTimeout(() => pixiApp.current?.resize(), 1);
         }
-
-        const resizeChecker = setInterval(() => {
-            if (pixiApp.current?.resizeTo === appContainer) {
-                if (
-                    appContainer.offsetWidth ===
-                        pixiApp.current.view.offsetWidth &&
-                    appContainer.offsetHeight ===
-                        pixiApp.current.view.offsetHeight
-                ) {
-                    if (!viewMounted) {
-                        setViewMounted(true);
-                    }
-                }
-            }
-        }, 100);
 
         return () => {
             if (pixiApp.current && appContainer) {
                 console.log("removed pixi view");
                 appContainer.removeChild(pixiApp.current.view);
                 setViewMounted(false);
-                clearInterval(resizeChecker);
+                pixiApp.current.resizeTo = undefined as any;
             }
         };
     }, [appContainer]);
+
+    useEffect(() => {
+        const resizeChecker = setInterval(() => {
+            const resizeTarget = pixiApp.current?.resizeTo;
+            const view = pixiApp.current?.view;
+            if (resizeTarget && view) {
+                if (
+                    window.innerWidth === view.offsetWidth &&
+                    window.innerHeight === view.offsetHeight
+                ) {
+                    if (!viewMounted) {
+                        console.log("Mounted the view");
+                        setViewMounted(true);
+                    }
+                } else {
+                    if (viewMounted) {
+                        console.log("View Unmounted");
+                        setViewMounted(false);
+                    }
+                }
+            }
+        }, 100);
+
+        return () => {
+            clearInterval(resizeChecker);
+        };
+    }, [viewMounted]);
 
     const containerMounting = React.useCallback((node: HTMLDivElement) => {
         if (node) {

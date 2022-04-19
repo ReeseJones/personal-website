@@ -3,22 +3,11 @@ import { graphql, Link } from "gatsby";
 import { Query } from "../../../graphql-types";
 import { ICardProps } from "../../components/card";
 import { CardContainer } from "../../components/cardContainer";
+import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image";
 
 const ArticlesPage = ({ data }: { data: Query }) => {
-    const cardBanner = (
-        <div style={{ background: "#DDD", height: "64px" }}></div>
-    );
-
-    const dummyContent = (
-        <ul>
-            <li>This is a thing</li>
-            <li>details</li>
-            <li>Reese Jones</li>
-            <li>Date: {new Date().toString()}</li>
-        </ul>
-    );
-
     const cards: ICardProps[] = data.allMdx.nodes.map((node) => {
+        const image = getImage(node.frontmatter?.hero_image as any);
         return {
             id: node?.id,
             title: (
@@ -26,12 +15,31 @@ const ArticlesPage = ({ data }: { data: Query }) => {
                     {<h2>{node?.frontmatter?.title}</h2>}
                 </Link>
             ),
-            backgroundElement: cardBanner,
-            children: dummyContent
+            backgroundElement: (
+                <GatsbyImage
+                    style={{ borderRadius: "0.25rem", maxHeight: "400px" }}
+                    image={image as IGatsbyImageData}
+                    alt={node.frontmatter?.hero_image_alt as string}
+                />
+            ),
+            children: (
+                <>
+                    <ul>
+                        <li>This is a thing</li>
+                        <li>details</li>
+                        <li>Reese Jones</li>
+                    </ul>
+                    <p>{node?.frontmatter?.date}</p>
+                </>
+            )
         };
     });
 
-    return <CardContainer>{cards}</CardContainer>;
+    return (
+        <div className="article-page">
+            <CardContainer>{cards}</CardContainer>;
+        </div>
+    );
 };
 
 export const query = graphql`
@@ -41,6 +49,12 @@ export const query = graphql`
                 frontmatter {
                     date(formatString: "MMMM D, YYYY")
                     title
+                    hero_image_alt
+                    hero_image {
+                        childImageSharp {
+                            gatsbyImageData(width: 400)
+                        }
+                    }
                 }
                 id
                 slug

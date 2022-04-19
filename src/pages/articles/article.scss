@@ -1,0 +1,20 @@
+@use "./../../shared";
+@use "./../../flex";
+
+.article-page {
+    @include flex.flex-container(column, center);
+    background: shared.$background-color;
+
+    .card-container {
+        max-width: 1024px;
+    }
+
+    .card {
+        border: 1rem solid shared.$primary-light-color;
+        box-shadow: 0 1px 2px black;
+    }
+}
+
+.hero-image {
+    width: 700px;
+}

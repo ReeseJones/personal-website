@@ -603,6 +603,8 @@ export type ImageSharpResize = {
 export type MdxFrontmatter = {
   title: Scalars['String'];
   date?: Maybe<Scalars['Date']>;
+  hero_image?: Maybe<File>;
+  hero_image_alt?: Maybe<Scalars['String']>;
 };
 
 
@@ -673,6 +675,109 @@ export type MdxGatsbyPathArgs = {
   filePath?: InputMaybe<Scalars['String']>;
 };
 
+export type StaticImage = Node & {
+  id: Scalars['ID'];
+  parent?: Maybe<Node>;
+  children: Array<Node>;
+  internal: Internal;
+  sourceInstanceName?: Maybe<Scalars['String']>;
+  relativePath?: Maybe<Scalars['String']>;
+  extension?: Maybe<Scalars['String']>;
+  prettySize?: Maybe<Scalars['String']>;
+  modifiedTime?: Maybe<Scalars['Date']>;
+  accessTime?: Maybe<Scalars['Date']>;
+  changeTime?: Maybe<Scalars['Date']>;
+  birthTime?: Maybe<Scalars['Date']>;
+  root?: Maybe<Scalars['String']>;
+  dir?: Maybe<Scalars['String']>;
+  base?: Maybe<Scalars['String']>;
+  ext?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  absolutePath?: Maybe<Scalars['String']>;
+  relativeDirectory?: Maybe<Scalars['String']>;
+  dev?: Maybe<Scalars['Float']>;
+  mode?: Maybe<Scalars['Int']>;
+  nlink?: Maybe<Scalars['Int']>;
+  uid?: Maybe<Scalars['Int']>;
+  rdev?: Maybe<Scalars['Int']>;
+  blksize?: Maybe<Scalars['Int']>;
+  ino?: Maybe<Scalars['Float']>;
+  size?: Maybe<Scalars['Int']>;
+  blocks?: Maybe<Scalars['Int']>;
+  atimeMs?: Maybe<Scalars['Float']>;
+  mtimeMs?: Maybe<Scalars['Float']>;
+  ctimeMs?: Maybe<Scalars['Float']>;
+  birthtimeMs?: Maybe<Scalars['Float']>;
+  atime?: Maybe<Scalars['Date']>;
+  mtime?: Maybe<Scalars['Date']>;
+  ctime?: Maybe<Scalars['Date']>;
+  birthtime?: Maybe<Scalars['Date']>;
+};
+
+
+export type StaticImageModifiedTimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageAccessTimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageChangeTimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageBirthTimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageAtimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageMtimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageCtimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
+
+export type StaticImageBirthtimeArgs = {
+  formatString?: InputMaybe<Scalars['String']>;
+  fromNow?: InputMaybe<Scalars['Boolean']>;
+  difference?: InputMaybe<Scalars['String']>;
+  locale?: InputMaybe<Scalars['String']>;
+};
+
 export type Query = {
   file?: Maybe<File>;
   allFile: FileConnection;
@@ -692,6 +797,8 @@ export type Query = {
   allImageSharp: ImageSharpConnection;
   mdx?: Maybe<Mdx>;
   allMdx: MdxConnection;
+  staticImage?: Maybe<StaticImage>;
+  allStaticImage: StaticImageConnection;
 };
 
 
@@ -956,6 +1063,54 @@ export type QueryAllMdxArgs = {
   limit?: InputMaybe<Scalars['Int']>;
 };
 
+
+export type QueryStaticImageArgs = {
+  id?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+  sourceInstanceName?: InputMaybe<StringQueryOperatorInput>;
+  relativePath?: InputMaybe<StringQueryOperatorInput>;
+  extension?: InputMaybe<StringQueryOperatorInput>;
+  prettySize?: InputMaybe<StringQueryOperatorInput>;
+  modifiedTime?: InputMaybe<DateQueryOperatorInput>;
+  accessTime?: InputMaybe<DateQueryOperatorInput>;
+  changeTime?: InputMaybe<DateQueryOperatorInput>;
+  birthTime?: InputMaybe<DateQueryOperatorInput>;
+  root?: InputMaybe<StringQueryOperatorInput>;
+  dir?: InputMaybe<StringQueryOperatorInput>;
+  base?: InputMaybe<StringQueryOperatorInput>;
+  ext?: InputMaybe<StringQueryOperatorInput>;
+  name?: InputMaybe<StringQueryOperatorInput>;
+  absolutePath?: InputMaybe<StringQueryOperatorInput>;
+  relativeDirectory?: InputMaybe<StringQueryOperatorInput>;
+  dev?: InputMaybe<FloatQueryOperatorInput>;
+  mode?: InputMaybe<IntQueryOperatorInput>;
+  nlink?: InputMaybe<IntQueryOperatorInput>;
+  uid?: InputMaybe<IntQueryOperatorInput>;
+  rdev?: InputMaybe<IntQueryOperatorInput>;
+  blksize?: InputMaybe<IntQueryOperatorInput>;
+  ino?: InputMaybe<FloatQueryOperatorInput>;
+  size?: InputMaybe<IntQueryOperatorInput>;
+  blocks?: InputMaybe<IntQueryOperatorInput>;
+  atimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  mtimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  ctimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  birthtimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  atime?: InputMaybe<DateQueryOperatorInput>;
+  mtime?: InputMaybe<DateQueryOperatorInput>;
+  ctime?: InputMaybe<DateQueryOperatorInput>;
+  birthtime?: InputMaybe<DateQueryOperatorInput>;
+};
+
+
+export type QueryAllStaticImageArgs = {
+  filter?: InputMaybe<StaticImageFilterInput>;
+  sort?: InputMaybe<StaticImageSortInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+};
+
 export type StringQueryOperatorInput = {
   eq?: InputMaybe<Scalars['String']>;
   ne?: InputMaybe<Scalars['String']>;
@@ -1122,6 +1277,53 @@ export type MdxFilterInput = {
 export type MdxFrontmatterFilterInput = {
   title?: InputMaybe<StringQueryOperatorInput>;
   date?: InputMaybe<DateQueryOperatorInput>;
+  hero_image?: InputMaybe<FileFilterInput>;
+  hero_image_alt?: InputMaybe<StringQueryOperatorInput>;
+};
+
+export type FileFilterInput = {
+  sourceInstanceName?: InputMaybe<StringQueryOperatorInput>;
+  absolutePath?: InputMaybe<StringQueryOperatorInput>;
+  relativePath?: InputMaybe<StringQueryOperatorInput>;
+  extension?: InputMaybe<StringQueryOperatorInput>;
+  size?: InputMaybe<IntQueryOperatorInput>;
+  prettySize?: InputMaybe<StringQueryOperatorInput>;
+  modifiedTime?: InputMaybe<DateQueryOperatorInput>;
+  accessTime?: InputMaybe<DateQueryOperatorInput>;
+  changeTime?: InputMaybe<DateQueryOperatorInput>;
+  birthTime?: InputMaybe<DateQueryOperatorInput>;
+  root?: InputMaybe<StringQueryOperatorInput>;
+  dir?: InputMaybe<StringQueryOperatorInput>;
+  base?: InputMaybe<StringQueryOperatorInput>;
+  ext?: InputMaybe<StringQueryOperatorInput>;
+  name?: InputMaybe<StringQueryOperatorInput>;
+  relativeDirectory?: InputMaybe<StringQueryOperatorInput>;
+  dev?: InputMaybe<IntQueryOperatorInput>;
+  mode?: InputMaybe<IntQueryOperatorInput>;
+  nlink?: InputMaybe<IntQueryOperatorInput>;
+  uid?: InputMaybe<IntQueryOperatorInput>;
+  gid?: InputMaybe<IntQueryOperatorInput>;
+  rdev?: InputMaybe<IntQueryOperatorInput>;
+  ino?: InputMaybe<FloatQueryOperatorInput>;
+  atimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  mtimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  ctimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  atime?: InputMaybe<DateQueryOperatorInput>;
+  mtime?: InputMaybe<DateQueryOperatorInput>;
+  ctime?: InputMaybe<DateQueryOperatorInput>;
+  birthtime?: InputMaybe<DateQueryOperatorInput>;
+  birthtimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  blksize?: InputMaybe<IntQueryOperatorInput>;
+  blocks?: InputMaybe<IntQueryOperatorInput>;
+  publicURL?: InputMaybe<StringQueryOperatorInput>;
+  childrenImageSharp?: InputMaybe<ImageSharpFilterListInput>;
+  childImageSharp?: InputMaybe<ImageSharpFilterInput>;
+  childrenMdx?: InputMaybe<MdxFilterListInput>;
+  childMdx?: InputMaybe<MdxFilterInput>;
+  id?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
 };
 
 export type MdxHeadingMdxFilterListInput = {
@@ -1375,6 +1577,45 @@ export type FileFieldsEnum =
   | 'childrenMdx___fileAbsolutePath'
   | 'childrenMdx___frontmatter___title'
   | 'childrenMdx___frontmatter___date'
+  | 'childrenMdx___frontmatter___hero_image___sourceInstanceName'
+  | 'childrenMdx___frontmatter___hero_image___absolutePath'
+  | 'childrenMdx___frontmatter___hero_image___relativePath'
+  | 'childrenMdx___frontmatter___hero_image___extension'
+  | 'childrenMdx___frontmatter___hero_image___size'
+  | 'childrenMdx___frontmatter___hero_image___prettySize'
+  | 'childrenMdx___frontmatter___hero_image___modifiedTime'
+  | 'childrenMdx___frontmatter___hero_image___accessTime'
+  | 'childrenMdx___frontmatter___hero_image___changeTime'
+  | 'childrenMdx___frontmatter___hero_image___birthTime'
+  | 'childrenMdx___frontmatter___hero_image___root'
+  | 'childrenMdx___frontmatter___hero_image___dir'
+  | 'childrenMdx___frontmatter___hero_image___base'
+  | 'childrenMdx___frontmatter___hero_image___ext'
+  | 'childrenMdx___frontmatter___hero_image___name'
+  | 'childrenMdx___frontmatter___hero_image___relativeDirectory'
+  | 'childrenMdx___frontmatter___hero_image___dev'
+  | 'childrenMdx___frontmatter___hero_image___mode'
+  | 'childrenMdx___frontmatter___hero_image___nlink'
+  | 'childrenMdx___frontmatter___hero_image___uid'
+  | 'childrenMdx___frontmatter___hero_image___gid'
+  | 'childrenMdx___frontmatter___hero_image___rdev'
+  | 'childrenMdx___frontmatter___hero_image___ino'
+  | 'childrenMdx___frontmatter___hero_image___atimeMs'
+  | 'childrenMdx___frontmatter___hero_image___mtimeMs'
+  | 'childrenMdx___frontmatter___hero_image___ctimeMs'
+  | 'childrenMdx___frontmatter___hero_image___atime'
+  | 'childrenMdx___frontmatter___hero_image___mtime'
+  | 'childrenMdx___frontmatter___hero_image___ctime'
+  | 'childrenMdx___frontmatter___hero_image___birthtime'
+  | 'childrenMdx___frontmatter___hero_image___birthtimeMs'
+  | 'childrenMdx___frontmatter___hero_image___blksize'
+  | 'childrenMdx___frontmatter___hero_image___blocks'
+  | 'childrenMdx___frontmatter___hero_image___publicURL'
+  | 'childrenMdx___frontmatter___hero_image___childrenImageSharp'
+  | 'childrenMdx___frontmatter___hero_image___childrenMdx'
+  | 'childrenMdx___frontmatter___hero_image___id'
+  | 'childrenMdx___frontmatter___hero_image___children'
+  | 'childrenMdx___frontmatter___hero_image_alt'
   | 'childrenMdx___slug'
   | 'childrenMdx___body'
   | 'childrenMdx___excerpt'
@@ -1431,6 +1672,45 @@ export type FileFieldsEnum =
   | 'childMdx___fileAbsolutePath'
   | 'childMdx___frontmatter___title'
   | 'childMdx___frontmatter___date'
+  | 'childMdx___frontmatter___hero_image___sourceInstanceName'
+  | 'childMdx___frontmatter___hero_image___absolutePath'
+  | 'childMdx___frontmatter___hero_image___relativePath'
+  | 'childMdx___frontmatter___hero_image___extension'
+  | 'childMdx___frontmatter___hero_image___size'
+  | 'childMdx___frontmatter___hero_image___prettySize'
+  | 'childMdx___frontmatter___hero_image___modifiedTime'
+  | 'childMdx___frontmatter___hero_image___accessTime'
+  | 'childMdx___frontmatter___hero_image___changeTime'
+  | 'childMdx___frontmatter___hero_image___birthTime'
+  | 'childMdx___frontmatter___hero_image___root'
+  | 'childMdx___frontmatter___hero_image___dir'
+  | 'childMdx___frontmatter___hero_image___base'
+  | 'childMdx___frontmatter___hero_image___ext'
+  | 'childMdx___frontmatter___hero_image___name'
+  | 'childMdx___frontmatter___hero_image___relativeDirectory'
+  | 'childMdx___frontmatter___hero_image___dev'
+  | 'childMdx___frontmatter___hero_image___mode'
+  | 'childMdx___frontmatter___hero_image___nlink'
+  | 'childMdx___frontmatter___hero_image___uid'
+  | 'childMdx___frontmatter___hero_image___gid'
+  | 'childMdx___frontmatter___hero_image___rdev'
+  | 'childMdx___frontmatter___hero_image___ino'
+  | 'childMdx___frontmatter___hero_image___atimeMs'
+  | 'childMdx___frontmatter___hero_image___mtimeMs'
+  | 'childMdx___frontmatter___hero_image___ctimeMs'
+  | 'childMdx___frontmatter___hero_image___atime'
+  | 'childMdx___frontmatter___hero_image___mtime'
+  | 'childMdx___frontmatter___hero_image___ctime'
+  | 'childMdx___frontmatter___hero_image___birthtime'
+  | 'childMdx___frontmatter___hero_image___birthtimeMs'
+  | 'childMdx___frontmatter___hero_image___blksize'
+  | 'childMdx___frontmatter___hero_image___blocks'
+  | 'childMdx___frontmatter___hero_image___publicURL'
+  | 'childMdx___frontmatter___hero_image___childrenImageSharp'
+  | 'childMdx___frontmatter___hero_image___childrenMdx'
+  | 'childMdx___frontmatter___hero_image___id'
+  | 'childMdx___frontmatter___hero_image___children'
+  | 'childMdx___frontmatter___hero_image_alt'
   | 'childMdx___slug'
   | 'childMdx___body'
   | 'childMdx___excerpt'
@@ -1609,51 +1889,6 @@ export type FileGroupConnectionGroupArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   limit?: InputMaybe<Scalars['Int']>;
   field: FileFieldsEnum;
-};
-
-export type FileFilterInput = {
-  sourceInstanceName?: InputMaybe<StringQueryOperatorInput>;
-  absolutePath?: InputMaybe<StringQueryOperatorInput>;
-  relativePath?: InputMaybe<StringQueryOperatorInput>;
-  extension?: InputMaybe<StringQueryOperatorInput>;
-  size?: InputMaybe<IntQueryOperatorInput>;
-  prettySize?: InputMaybe<StringQueryOperatorInput>;
-  modifiedTime?: InputMaybe<DateQueryOperatorInput>;
-  accessTime?: InputMaybe<DateQueryOperatorInput>;
-  changeTime?: InputMaybe<DateQueryOperatorInput>;
-  birthTime?: InputMaybe<DateQueryOperatorInput>;
-  root?: InputMaybe<StringQueryOperatorInput>;
-  dir?: InputMaybe<StringQueryOperatorInput>;
-  base?: InputMaybe<StringQueryOperatorInput>;
-  ext?: InputMaybe<StringQueryOperatorInput>;
-  name?: InputMaybe<StringQueryOperatorInput>;
-  relativeDirectory?: InputMaybe<StringQueryOperatorInput>;
-  dev?: InputMaybe<IntQueryOperatorInput>;
-  mode?: InputMaybe<IntQueryOperatorInput>;
-  nlink?: InputMaybe<IntQueryOperatorInput>;
-  uid?: InputMaybe<IntQueryOperatorInput>;
-  gid?: InputMaybe<IntQueryOperatorInput>;
-  rdev?: InputMaybe<IntQueryOperatorInput>;
-  ino?: InputMaybe<FloatQueryOperatorInput>;
-  atimeMs?: InputMaybe<FloatQueryOperatorInput>;
-  mtimeMs?: InputMaybe<FloatQueryOperatorInput>;
-  ctimeMs?: InputMaybe<FloatQueryOperatorInput>;
-  atime?: InputMaybe<DateQueryOperatorInput>;
-  mtime?: InputMaybe<DateQueryOperatorInput>;
-  ctime?: InputMaybe<DateQueryOperatorInput>;
-  birthtime?: InputMaybe<DateQueryOperatorInput>;
-  birthtimeMs?: InputMaybe<FloatQueryOperatorInput>;
-  blksize?: InputMaybe<IntQueryOperatorInput>;
-  blocks?: InputMaybe<IntQueryOperatorInput>;
-  publicURL?: InputMaybe<StringQueryOperatorInput>;
-  childrenImageSharp?: InputMaybe<ImageSharpFilterListInput>;
-  childImageSharp?: InputMaybe<ImageSharpFilterInput>;
-  childrenMdx?: InputMaybe<MdxFilterListInput>;
-  childMdx?: InputMaybe<MdxFilterInput>;
-  id?: InputMaybe<StringQueryOperatorInput>;
-  parent?: InputMaybe<NodeFilterInput>;
-  children?: InputMaybe<NodeFilterListInput>;
-  internal?: InputMaybe<InternalFilterInput>;
 };
 
 export type FileSortInput = {
@@ -3220,6 +3455,89 @@ export type MdxFieldsEnum =
   | 'fileAbsolutePath'
   | 'frontmatter___title'
   | 'frontmatter___date'
+  | 'frontmatter___hero_image___sourceInstanceName'
+  | 'frontmatter___hero_image___absolutePath'
+  | 'frontmatter___hero_image___relativePath'
+  | 'frontmatter___hero_image___extension'
+  | 'frontmatter___hero_image___size'
+  | 'frontmatter___hero_image___prettySize'
+  | 'frontmatter___hero_image___modifiedTime'
+  | 'frontmatter___hero_image___accessTime'
+  | 'frontmatter___hero_image___changeTime'
+  | 'frontmatter___hero_image___birthTime'
+  | 'frontmatter___hero_image___root'
+  | 'frontmatter___hero_image___dir'
+  | 'frontmatter___hero_image___base'
+  | 'frontmatter___hero_image___ext'
+  | 'frontmatter___hero_image___name'
+  | 'frontmatter___hero_image___relativeDirectory'
+  | 'frontmatter___hero_image___dev'
+  | 'frontmatter___hero_image___mode'
+  | 'frontmatter___hero_image___nlink'
+  | 'frontmatter___hero_image___uid'
+  | 'frontmatter___hero_image___gid'
+  | 'frontmatter___hero_image___rdev'
+  | 'frontmatter___hero_image___ino'
+  | 'frontmatter___hero_image___atimeMs'
+  | 'frontmatter___hero_image___mtimeMs'
+  | 'frontmatter___hero_image___ctimeMs'
+  | 'frontmatter___hero_image___atime'
+  | 'frontmatter___hero_image___mtime'
+  | 'frontmatter___hero_image___ctime'
+  | 'frontmatter___hero_image___birthtime'
+  | 'frontmatter___hero_image___birthtimeMs'
+  | 'frontmatter___hero_image___blksize'
+  | 'frontmatter___hero_image___blocks'
+  | 'frontmatter___hero_image___publicURL'
+  | 'frontmatter___hero_image___childrenImageSharp'
+  | 'frontmatter___hero_image___childrenImageSharp___gatsbyImageData'
+  | 'frontmatter___hero_image___childrenImageSharp___id'
+  | 'frontmatter___hero_image___childrenImageSharp___children'
+  | 'frontmatter___hero_image___childImageSharp___gatsbyImageData'
+  | 'frontmatter___hero_image___childImageSharp___id'
+  | 'frontmatter___hero_image___childImageSharp___children'
+  | 'frontmatter___hero_image___childrenMdx'
+  | 'frontmatter___hero_image___childrenMdx___rawBody'
+  | 'frontmatter___hero_image___childrenMdx___fileAbsolutePath'
+  | 'frontmatter___hero_image___childrenMdx___slug'
+  | 'frontmatter___hero_image___childrenMdx___body'
+  | 'frontmatter___hero_image___childrenMdx___excerpt'
+  | 'frontmatter___hero_image___childrenMdx___headings'
+  | 'frontmatter___hero_image___childrenMdx___html'
+  | 'frontmatter___hero_image___childrenMdx___mdxAST'
+  | 'frontmatter___hero_image___childrenMdx___tableOfContents'
+  | 'frontmatter___hero_image___childrenMdx___timeToRead'
+  | 'frontmatter___hero_image___childrenMdx___gatsbyPath'
+  | 'frontmatter___hero_image___childrenMdx___id'
+  | 'frontmatter___hero_image___childrenMdx___children'
+  | 'frontmatter___hero_image___childMdx___rawBody'
+  | 'frontmatter___hero_image___childMdx___fileAbsolutePath'
+  | 'frontmatter___hero_image___childMdx___slug'
+  | 'frontmatter___hero_image___childMdx___body'
+  | 'frontmatter___hero_image___childMdx___excerpt'
+  | 'frontmatter___hero_image___childMdx___headings'
+  | 'frontmatter___hero_image___childMdx___html'
+  | 'frontmatter___hero_image___childMdx___mdxAST'
+  | 'frontmatter___hero_image___childMdx___tableOfContents'
+  | 'frontmatter___hero_image___childMdx___timeToRead'
+  | 'frontmatter___hero_image___childMdx___gatsbyPath'
+  | 'frontmatter___hero_image___childMdx___id'
+  | 'frontmatter___hero_image___childMdx___children'
+  | 'frontmatter___hero_image___id'
+  | 'frontmatter___hero_image___parent___id'
+  | 'frontmatter___hero_image___parent___children'
+  | 'frontmatter___hero_image___children'
+  | 'frontmatter___hero_image___children___id'
+  | 'frontmatter___hero_image___children___children'
+  | 'frontmatter___hero_image___internal___content'
+  | 'frontmatter___hero_image___internal___contentDigest'
+  | 'frontmatter___hero_image___internal___description'
+  | 'frontmatter___hero_image___internal___fieldOwners'
+  | 'frontmatter___hero_image___internal___ignoreType'
+  | 'frontmatter___hero_image___internal___mediaType'
+  | 'frontmatter___hero_image___internal___owner'
+  | 'frontmatter___hero_image___internal___type'
+  | 'frontmatter___hero_image_alt'
   | 'slug'
   | 'body'
   | 'excerpt'
@@ -3367,17 +3685,267 @@ export type MdxSortInput = {
   order?: InputMaybe<Array<InputMaybe<SortOrderEnum>>>;
 };
 
+export type StaticImageConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<StaticImageEdge>;
+  nodes: Array<StaticImage>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+  group: Array<StaticImageGroupConnection>;
+};
+
+
+export type StaticImageConnectionDistinctArgs = {
+  field: StaticImageFieldsEnum;
+};
+
+
+export type StaticImageConnectionMaxArgs = {
+  field: StaticImageFieldsEnum;
+};
+
+
+export type StaticImageConnectionMinArgs = {
+  field: StaticImageFieldsEnum;
+};
+
+
+export type StaticImageConnectionSumArgs = {
+  field: StaticImageFieldsEnum;
+};
+
+
+export type StaticImageConnectionGroupArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  field: StaticImageFieldsEnum;
+};
+
+export type StaticImageEdge = {
+  next?: Maybe<StaticImage>;
+  node: StaticImage;
+  previous?: Maybe<StaticImage>;
+};
+
+export type StaticImageFieldsEnum =
+  | 'id'
+  | 'parent___id'
+  | 'parent___parent___id'
+  | 'parent___parent___parent___id'
+  | 'parent___parent___parent___children'
+  | 'parent___parent___children'
+  | 'parent___parent___children___id'
+  | 'parent___parent___children___children'
+  | 'parent___parent___internal___content'
+  | 'parent___parent___internal___contentDigest'
+  | 'parent___parent___internal___description'
+  | 'parent___parent___internal___fieldOwners'
+  | 'parent___parent___internal___ignoreType'
+  | 'parent___parent___internal___mediaType'
+  | 'parent___parent___internal___owner'
+  | 'parent___parent___internal___type'
+  | 'parent___children'
+  | 'parent___children___id'
+  | 'parent___children___parent___id'
+  | 'parent___children___parent___children'
+  | 'parent___children___children'
+  | 'parent___children___children___id'
+  | 'parent___children___children___children'
+  | 'parent___children___internal___content'
+  | 'parent___children___internal___contentDigest'
+  | 'parent___children___internal___description'
+  | 'parent___children___internal___fieldOwners'
+  | 'parent___children___internal___ignoreType'
+  | 'parent___children___internal___mediaType'
+  | 'parent___children___internal___owner'
+  | 'parent___children___internal___type'
+  | 'parent___internal___content'
+  | 'parent___internal___contentDigest'
+  | 'parent___internal___description'
+  | 'parent___internal___fieldOwners'
+  | 'parent___internal___ignoreType'
+  | 'parent___internal___mediaType'
+  | 'parent___internal___owner'
+  | 'parent___internal___type'
+  | 'children'
+  | 'children___id'
+  | 'children___parent___id'
+  | 'children___parent___parent___id'
+  | 'children___parent___parent___children'
+  | 'children___parent___children'
+  | 'children___parent___children___id'
+  | 'children___parent___children___children'
+  | 'children___parent___internal___content'
+  | 'children___parent___internal___contentDigest'
+  | 'children___parent___internal___description'
+  | 'children___parent___internal___fieldOwners'
+  | 'children___parent___internal___ignoreType'
+  | 'children___parent___internal___mediaType'
+  | 'children___parent___internal___owner'
+  | 'children___parent___internal___type'
+  | 'children___children'
+  | 'children___children___id'
+  | 'children___children___parent___id'
+  | 'children___children___parent___children'
+  | 'children___children___children'
+  | 'children___children___children___id'
+  | 'children___children___children___children'
+  | 'children___children___internal___content'
+  | 'children___children___internal___contentDigest'
+  | 'children___children___internal___description'
+  | 'children___children___internal___fieldOwners'
+  | 'children___children___internal___ignoreType'
+  | 'children___children___internal___mediaType'
+  | 'children___children___internal___owner'
+  | 'children___children___internal___type'
+  | 'children___internal___content'
+  | 'children___internal___contentDigest'
+  | 'children___internal___description'
+  | 'children___internal___fieldOwners'
+  | 'children___internal___ignoreType'
+  | 'children___internal___mediaType'
+  | 'children___internal___owner'
+  | 'children___internal___type'
+  | 'internal___content'
+  | 'internal___contentDigest'
+  | 'internal___description'
+  | 'internal___fieldOwners'
+  | 'internal___ignoreType'
+  | 'internal___mediaType'
+  | 'internal___owner'
+  | 'internal___type'
+  | 'sourceInstanceName'
+  | 'relativePath'
+  | 'extension'
+  | 'prettySize'
+  | 'modifiedTime'
+  | 'accessTime'
+  | 'changeTime'
+  | 'birthTime'
+  | 'root'
+  | 'dir'
+  | 'base'
+  | 'ext'
+  | 'name'
+  | 'absolutePath'
+  | 'relativeDirectory'
+  | 'dev'
+  | 'mode'
+  | 'nlink'
+  | 'uid'
+  | 'rdev'
+  | 'blksize'
+  | 'ino'
+  | 'size'
+  | 'blocks'
+  | 'atimeMs'
+  | 'mtimeMs'
+  | 'ctimeMs'
+  | 'birthtimeMs'
+  | 'atime'
+  | 'mtime'
+  | 'ctime'
+  | 'birthtime';
+
+export type StaticImageGroupConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<StaticImageEdge>;
+  nodes: Array<StaticImage>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  sum?: Maybe<Scalars['Float']>;
+  group: Array<StaticImageGroupConnection>;
+  field: Scalars['String'];
+  fieldValue?: Maybe<Scalars['String']>;
+};
+
+
+export type StaticImageGroupConnectionDistinctArgs = {
+  field: StaticImageFieldsEnum;
+};
+
+
+export type StaticImageGroupConnectionMaxArgs = {
+  field: StaticImageFieldsEnum;
+};
+
+
+export type StaticImageGroupConnectionMinArgs = {
+  field: StaticImageFieldsEnum;
+};
+
+
+export type StaticImageGroupConnectionSumArgs = {
+  field: StaticImageFieldsEnum;
+};
+
+
+export type StaticImageGroupConnectionGroupArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  field: StaticImageFieldsEnum;
+};
+
+export type StaticImageFilterInput = {
+  id?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+  sourceInstanceName?: InputMaybe<StringQueryOperatorInput>;
+  relativePath?: InputMaybe<StringQueryOperatorInput>;
+  extension?: InputMaybe<StringQueryOperatorInput>;
+  prettySize?: InputMaybe<StringQueryOperatorInput>;
+  modifiedTime?: InputMaybe<DateQueryOperatorInput>;
+  accessTime?: InputMaybe<DateQueryOperatorInput>;
+  changeTime?: InputMaybe<DateQueryOperatorInput>;
+  birthTime?: InputMaybe<DateQueryOperatorInput>;
+  root?: InputMaybe<StringQueryOperatorInput>;
+  dir?: InputMaybe<StringQueryOperatorInput>;
+  base?: InputMaybe<StringQueryOperatorInput>;
+  ext?: InputMaybe<StringQueryOperatorInput>;
+  name?: InputMaybe<StringQueryOperatorInput>;
+  absolutePath?: InputMaybe<StringQueryOperatorInput>;
+  relativeDirectory?: InputMaybe<StringQueryOperatorInput>;
+  dev?: InputMaybe<FloatQueryOperatorInput>;
+  mode?: InputMaybe<IntQueryOperatorInput>;
+  nlink?: InputMaybe<IntQueryOperatorInput>;
+  uid?: InputMaybe<IntQueryOperatorInput>;
+  rdev?: InputMaybe<IntQueryOperatorInput>;
+  blksize?: InputMaybe<IntQueryOperatorInput>;
+  ino?: InputMaybe<FloatQueryOperatorInput>;
+  size?: InputMaybe<IntQueryOperatorInput>;
+  blocks?: InputMaybe<IntQueryOperatorInput>;
+  atimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  mtimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  ctimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  birthtimeMs?: InputMaybe<FloatQueryOperatorInput>;
+  atime?: InputMaybe<DateQueryOperatorInput>;
+  mtime?: InputMaybe<DateQueryOperatorInput>;
+  ctime?: InputMaybe<DateQueryOperatorInput>;
+  birthtime?: InputMaybe<DateQueryOperatorInput>;
+};
+
+export type StaticImageSortInput = {
+  fields?: InputMaybe<Array<InputMaybe<StaticImageFieldsEnum>>>;
+  order?: InputMaybe<Array<InputMaybe<SortOrderEnum>>>;
+};
+
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_1_Query = { allMdx: { nodes: Array<{ id: string, slug?: string | null, frontmatter?: { date?: any | null, title: string } | null }> } };
+export type Unnamed_1_Query = { allMdx: { nodes: Array<{ id: string, slug?: string | null, frontmatter?: { date?: any | null, title: string, hero_image_alt?: string | null, hero_image?: { childImageSharp?: { gatsbyImageData: any } | null } | null } | null }> } };
 
 export type Unnamed_2_QueryVariables = Exact<{
   id?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type Unnamed_2_Query = { mdx?: { body: string, frontmatter?: { title: string, date?: any | null } | null } | null };
+export type Unnamed_2_Query = { mdx?: { body: string, frontmatter?: { title: string, date?: any | null, hero_image_alt?: string | null, hero_image?: { childImageSharp?: { gatsbyImageData: any } | null } | null } | null } | null };
 
 export type GatsbyImageSharpFixedFragment = { base64?: string | null, width: number, height: number, src: string, srcSet: string };
 

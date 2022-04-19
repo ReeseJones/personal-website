@@ -12,24 +12,31 @@
     @include flex.flex-container(column, center);
     justify-content: end;
     flex: 0 0 auto;
-    background: white;
+    background: #1f1f1f;
     color: shared.$light-font-color;
-    border-radius: 1rem;
+    //border-radius: 1rem;
     overflow: hidden;
+    width: 400px;
 }
 
 .card-details {
-    display: flex;
+    @include flex.flex-container(column, center);
     flex: 1 1 auto;
     padding: shared.$padding-size
 }
 
 .card-title {
     font-weight: 800;
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .card-background {
     position: relative;
     width: 100%;
+}
+
+.card-content {
+    @include flex.flex-container(column, center);
+    flex: 1 1 auto;
+    padding: shared.$padding-size
 }

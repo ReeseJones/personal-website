@@ -1,19 +1,19 @@
 import * as PIXI from "pixi.js";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { StarField } from "../starField/starFieldApp";
 
 export const usePixiStarBackground = (
     pixiApp: PIXI.Application | null,
-    viewMounted: boolean,
     maxDepth: number,
     maxEdges: number,
     minEdges: number,
     rootStars: number
 ) => {
+    const starField = useRef<StarField | null>(null);
+
     useEffect(() => {
-        let starField: StarField | null = null;
-        if (viewMounted && pixiApp) {
-            starField = new StarField(pixiApp, {
+        if (pixiApp) {
+            starField.current = new StarField(pixiApp, {
                 maxDepth,
                 maxEdges,
                 minEdges,
@@ -22,9 +22,10 @@ export const usePixiStarBackground = (
         }
 
         return () => {
-            if (starField) {
-                starField.destroy();
+            if (starField.current) {
+                starField.current.destroy();
+                starField.current = null;
             }
         };
-    }, [pixiApp, viewMounted, maxDepth, maxEdges, minEdges, rootStars]);
+    }, [pixiApp, maxDepth, maxEdges, minEdges, rootStars]);
 };

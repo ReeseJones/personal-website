@@ -6,16 +6,28 @@ import { usePixiApp } from "../hooks/usePixiApp";
 import { usePixiStarBackground } from "../hooks/usePixiStarBackground";
 
 export const Layout: React.FC<React.ReactNode> = (props) => {
-    const [rootStarCount, setRootStarCount] = React.useState(120);
+    const [rootStarCount, setRootStarCount] = React.useState(100);
+    const [starDepth, setStarDepth] = React.useState(7);
+    const [maxEdges, setMaxEdges] = React.useState(3);
+    const [minEdges, setMinEdges] = React.useState(1);
     const [containerRef, pixiApp, viewMounted] = usePixiApp();
-    usePixiStarBackground(pixiApp.current, viewMounted, 6, 2, 1, rootStarCount);
+
+    usePixiStarBackground(
+        pixiApp.current,
+        starDepth,
+        maxEdges,
+        minEdges,
+        rootStarCount
+    );
 
     return (
         <>
             <div className="anim-background" ref={containerRef}>
                 <Header />
-                {props.children}
-                <Footer />
+                <div className="scroll-region">
+                    <div className="content">{props.children}</div>
+                    <Footer />
+                </div>
             </div>
         </>
     );

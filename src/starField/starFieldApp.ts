@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { IPointData } from "pixi.js";
 
 import starCloud from "../images/starcloud.png";
-import { makeColor, randomNumber } from "../lib/helpers";
+import { clamp, makeColor, randomNumber } from "../lib/helpers";
 import { IParticle } from "./IParticle";
 import { IStarFieldParameters } from "./IStarFieldParameters";
 import { LineRenderer } from "./lineRenderer";
@@ -27,8 +27,8 @@ export class StarField {
     constructor(private app: PIXI.Application, options?: IStarFieldParameters) {
         this.particleContainer.blendMode = PIXI.BLEND_MODES.ADD;
         app.stage.addChild(this.particleContainer);
-        const width = app.screen.width;
-        const height = app.screen.height;
+        const width = window.screen.width;
+        const height = window.screen.height;
         const spawnBounds = {
             x: -width,
             y: -height,
@@ -98,6 +98,9 @@ export class StarField {
     private getMouseOffsetPosition = (speedMultiplier: number) => {
         const mousePos: IPointData =
             this.app.renderer.plugins.interaction.mouse.global;
+
+        mousePos.x = clamp(mousePos.x, 0, window.innerWidth);
+        mousePos.y = clamp(mousePos.y, 0, window.innerHeight);
 
         if (this.lastPosition.x === 0 && this.lastPosition.y === 0) {
             this.lastPosition = new PIXI.Point(mousePos.x, mousePos.y);
