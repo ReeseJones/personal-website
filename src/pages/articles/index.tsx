@@ -37,7 +37,8 @@ const ArticlesPage = ({ data }: { data: Query }) => {
 
     return (
         <div className="article-page">
-            <CardContainer>{cards}</CardContainer>;
+            <h1>Articles</h1>
+            <CardContainer>{cards}</CardContainer>
         </div>
     );
 };

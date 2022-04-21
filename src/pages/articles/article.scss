@@ -13,8 +13,19 @@
         border: 1rem solid shared.$primary-light-color;
         box-shadow: 0 1px 2px black;
     }
+
+    h1 {
+        padding: 1rem;
+        color: shared.$font-highlight-color;
+    }
 }
 
 .hero-image {
-    width: 700px;
+    //width: 700px;
+}
+
+.blog-article {
+    background: shared.$background-color;
+    max-width: 725px;
+    padding: 2rem;
 }

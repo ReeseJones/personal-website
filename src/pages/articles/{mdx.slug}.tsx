@@ -9,7 +9,7 @@ const ArticlePage = ({ data }: { data: Query }) => {
     const image = getImage(data.mdx?.frontmatter?.hero_image as any);
     return (
         <>
-            <article>
+            <article className="blog-article">
                 <h1>{data?.mdx?.frontmatter?.title}</h1>
                 <p>{data?.mdx?.frontmatter?.date}</p>
                 <GatsbyImage
@@ -34,7 +34,10 @@ export const query = graphql`
                 hero_image_alt
                 hero_image {
                     childImageSharp {
-                        gatsbyImageData
+                        gatsbyImageData(
+                            width: 725
+                            transformOptions: { cropFocus: NORTH }
+                        )
                     }
                 }
             }
