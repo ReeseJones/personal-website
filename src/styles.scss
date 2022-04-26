@@ -1,7 +1,9 @@
+@use "clear";
 @use "shared";
 @use "gatsbyStyleClear";
-@use "clear";
 @use "flex";
+@use "grid";
+@use "gallery";
 
 .article-body {
     @include flex.flex-container(column, center);
@@ -20,10 +22,31 @@
     flex: 1 1 0;
 }
 
+.page-content {
+    max-width: 960px;
+    background-color: shared.$background-color;
+
+    h1, h2, h3, h4, h5, h6 {
+        padding: 2rem;
+        color: shared.$font-highlight-color;
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    p {
+        padding-bottom: 1rem;
+        font-size: 1rem;
+    }
+}
+
 .hero-title {
     margin-top: 3rem;
     margin-bottom: 0rem;
     font-size: 4rem;
+}
+
+.border {
+    @include shared.border;
 }
 
 .hero-body {
@@ -80,9 +103,10 @@ a:hover::after {
 
 .scroll-region {
     @include flex.flex-container(column, center);
+    align-items: stretch;
     overflow-y: auto;
-    scrollbar-gutter: stable;
     width: 100%;
+    flex: 1 1;
 }
 
 ::-webkit-scrollbar {
@@ -92,7 +116,7 @@ a:hover::after {
 ::-webkit-scrollbar-track {
     //background: shared.$primary-color;
     //border: 0.25rem solid shared.$primary-light-color;
-    background: none;
+    background: shared.$primary-color;
 }
 
 ::-webkit-scrollbar-thumb {

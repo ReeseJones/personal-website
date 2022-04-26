@@ -1,8 +1,13 @@
+@use "./../shared";
+
 .footer {
-    padding-top: 2em;
-    padding-bottom: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
     display: flex;
     justify-content: center;
+    background: shared.$background-color;
+    border-top: shared.$primary-light-color solid 0.25rem;
+    flex: 0 0 auto;
 
     ul {
         margin: 0;

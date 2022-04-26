@@ -3935,6 +3935,11 @@ export type StaticImageSortInput = {
   order?: InputMaybe<Array<InputMaybe<SortOrderEnum>>>;
 };
 
+export type AboutMeImageQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AboutMeImageQueryQuery = { allFile: { edges: Array<{ node: { relativePath: string, childImageSharp?: { gatsbyImageData: any } | null } }> } };
+
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
 

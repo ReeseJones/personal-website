@@ -1,31 +1,18 @@
 @use "./../../shared";
-@use "./../../flex";
 
-.article-page {
-    @include flex.flex-container(column, center);
-    background: shared.$background-color;
-
-    .card-container {
-        max-width: 1024px;
-    }
-
+.page-content {
     .card {
-        border: 1rem solid shared.$primary-light-color;
-        box-shadow: 0 1px 2px black;
-    }
-
-    h1 {
-        padding: 1rem;
-        color: shared.$font-highlight-color;
+        @include shared.border;
     }
 }
+
 
 .hero-image {
-    //width: 700px;
+    @include shared.border;
 }
+
 
 .blog-article {
     background: shared.$background-color;
-    max-width: 725px;
     padding: 2rem;
 }

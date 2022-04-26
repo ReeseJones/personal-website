@@ -1,7 +1,7 @@
 import * as React from "react";
+import "../styles.scss"; // <--- includes reset and must be first
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
-import "../styles.scss";
 import { usePixiApp } from "../hooks/usePixiApp";
 import { usePixiStarBackground } from "../hooks/usePixiStarBackground";
 

@@ -2,16 +2,16 @@
 @use "./../flex" as flex;
 
 .card-container {
-    @include flex.flex-container(row, center);
+    @include flex.flex-container(row, stretch);
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem 2rem;
+    justify-content: space-evenly;
+    gap: 1rem;
 }
 
 .card {
     @include flex.flex-container(column, center);
     justify-content: end;
-    flex: 0 0 auto;
+    flex:  0 0 auto;
     background: #1f1f1f;
     color: shared.$light-font-color;
     //border-radius: 1rem;

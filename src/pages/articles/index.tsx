@@ -36,9 +36,13 @@ const ArticlesPage = ({ data }: { data: Query }) => {
     });
 
     return (
-        <div className="article-page">
-            <h1>Articles</h1>
-            <CardContainer>{cards}</CardContainer>
+        <div className="page-content grid">
+            <div className="col col-12">
+                <h1>Articles</h1>
+            </div>
+            <div className="col col-12">
+                <CardContainer>{cards}</CardContainer>
+            </div>
         </div>
     );
 };
