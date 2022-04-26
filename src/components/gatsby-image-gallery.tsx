@@ -14,9 +14,6 @@ export const GatsbyImageGallery: React.FC<IGatsbyImageGalleryProps> = (
     return (
         <ul className={restOfProps?.className + " gallery"}>
             {imageData.map((data) => {
-                const aspect = data.height / data.width;
-                const height = 300;
-                const width = height * aspect;
                 return (
                     <li>
                         <img
