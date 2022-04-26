@@ -1,5 +1,4 @@
-import { GatsbyImage, IGatsbyImageData } from "gatsby-plugin-image";
-import { SourceProps } from "gatsby-plugin-image/dist/src/components/picture";
+import { IGatsbyImageData } from "gatsby-plugin-image";
 import React from "react";
 
 export interface IGatsbyImageGalleryProps
