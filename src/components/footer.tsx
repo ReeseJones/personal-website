@@ -21,8 +21,8 @@ export const Footer: React.FC<React.ReactNode> = () => {
                     </li>
                     <li key={"github"}>
                         <span>GitHub: </span>{" "}
-                        <a href="https://github.com/ReeseJones/personal-website">
-                            https://github.com/ReeseJones/personal-website
+                        <a href="https://github.com/ReeseJones">
+                            https://github.com/ReeseJones
                         </a>
                     </li>
                 </ul>

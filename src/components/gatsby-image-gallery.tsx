@@ -15,7 +15,7 @@ export const GatsbyImageGallery: React.FC<IGatsbyImageGalleryProps> = (
         <ul className={restOfProps?.className + " gallery"}>
             {imageData.map((data) => {
                 return (
-                    <li>
+                    <li key={data.images.fallback?.src}>
                         <img
                             src={data.images.fallback?.src}
                             srcSet={data.images.fallback?.srcSet}

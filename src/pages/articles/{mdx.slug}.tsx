@@ -9,17 +9,27 @@ const ArticlePage = ({ data }: { data: Query }) => {
     const image = getImage(data.mdx?.frontmatter?.hero_image as any);
     return (
         <>
-            <article className="blog-article">
-                <h1>{data?.mdx?.frontmatter?.title}</h1>
-                <p>{data?.mdx?.frontmatter?.date}</p>
-                <GatsbyImage
-                    className="hero-image"
-                    image={image as IGatsbyImageData}
-                    alt={data.mdx?.frontmatter?.hero_image_alt as string}
-                />
-                {data?.mdx?.body ? (
-                    <MDXRenderer>{data.mdx.body}</MDXRenderer>
-                ) : null}
+            <article className="page-content blog-article">
+                <div className="grid">
+                    <div className="col col-12">
+                        <h1>{data?.mdx?.frontmatter?.title}</h1>
+                        <p>{data?.mdx?.frontmatter?.date}</p>
+                    </div>
+                    <div className="col col-12 justify-center">
+                        <GatsbyImage
+                            className="hero-image"
+                            image={image as IGatsbyImageData}
+                            alt={
+                                data.mdx?.frontmatter?.hero_image_alt as string
+                            }
+                        />
+                    </div>
+                    <div className="col col-12">
+                        {data?.mdx?.body ? (
+                            <MDXRenderer>{data.mdx.body}</MDXRenderer>
+                        ) : null}
+                    </div>
+                </div>
             </article>
         </>
     );
@@ -35,7 +45,7 @@ export const query = graphql`
                 hero_image {
                     childImageSharp {
                         gatsbyImageData(
-                            width: 725
+                            width: 928
                             transformOptions: { cropFocus: NORTH }
                         )
                     }

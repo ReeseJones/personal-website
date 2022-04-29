@@ -5,7 +5,6 @@ import { graphql } from "gatsby";
 import { Query } from "../../graphql-types";
 
 const IndexPage = ({ data }: { data: Query }) => {
-    console.log(data);
     const imageData = data.allFile.edges
         .map((fileEdge) => {
             if (fileEdge.node.childImageSharp) {
